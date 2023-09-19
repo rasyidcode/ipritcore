@@ -1,5 +1,12 @@
 import { prisma } from "@/db";
-import { Transaction } from "@prisma/client";
+import { Transaction, TransactionType } from "@prisma/client";
+
+export type TransactionData = {
+    date: string,
+    amount: number,
+    type: TransactionType,
+    desc: string
+}
 
 export function getAll() {
     return prisma.transaction.findMany({ orderBy: { createdAt: 'desc' } })
@@ -9,8 +16,14 @@ export function get(id: number) {
     return prisma.transaction.findFirst({ where: { id: id } })
 }
 
-export function create(transaction: Transaction) {
-    prisma.transaction.create({ data: transaction })
+export async function create(transaction: TransactionData) {
+    await prisma.transaction.create({ data: { 
+        date: new Date(transaction.date), 
+        desc: transaction.desc, 
+        amount: transaction.amount, 
+        type: transaction.type
+    }
+})
 }
 
 export function update(transaction: Transaction) {

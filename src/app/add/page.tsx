@@ -1,4 +1,38 @@
 import Layout from "@/components/Layout";
+import * as transaction from "@/services/transaction";
+import { TransactionType } from "@prisma/client";
+import { redirect } from "next/navigation";
+
+async function createTransaction(data: FormData) {
+    "use server"
+
+    const date = data.get("date")?.valueOf()
+    const amount = data.get("amount")?.valueOf()
+    const type = data.get("type")?.valueOf()
+    const desc = data.get("desc")?.valueOf()
+
+    if (typeof date !== "string" || date.length === 0) {
+        throw new Error("Invalid Date")
+    }
+    if (typeof amount !== "string" || amount.length === 0) {
+        throw new Error("Invalid Amount")
+    }
+    if (typeof type !== "string" || type.length === 0) {
+        throw new Error("Invalid Type")
+    }
+    if (typeof desc !== "string" || desc.length === 0) {
+        throw new Error("Invalid Desc")
+    }
+
+    await transaction.create({
+        date: date,
+        type: type === "expenses" ? TransactionType.EXPENSES : TransactionType.INCOME,
+        desc: desc,
+        amount: parseInt(amount)
+    })
+
+    redirect("/")
+}
 
 export default function Page() {
     return (
@@ -6,14 +40,14 @@ export default function Page() {
             <div className="p-4 border grid grid-cols-1">
                 <h4 className="mb-4 font-medium underline">Add New Expense</h4>
 
-                <form className="grid gap-3">
+                <form action={createTransaction} className="grid gap-3">
                     <div className="flex flex-row gap-3">
                         <label htmlFor="date" className="text-sm py-1 w-16">Date</label>
                         <input type="date" id="date" name="date" className="border text-sm w-60" />
                     </div>
                     <div className="flex flex-row gap-3">
                         <label htmlFor="amount" className="text-sm py-1 w-16">Amount</label>
-                        <input type="number" id="amount" name="amount" className="border text-sm w-60" value={0} />
+                        <input type="number" id="amount" name="amount" className="border text-sm w-60" />
                     </div>
                     <div className="flex flex-row gap-3">
                         <label htmlFor="type" className="text-sm py-1 w-16">Type</label>
@@ -30,7 +64,7 @@ export default function Page() {
                     </div>
                     <div className="flex flex-row gap-3">
                         <label htmlFor="desc" className="text-sm py-1 w-16">Desc</label>
-                        <textarea className="border text-sm w-60"></textarea>
+                        <textarea id="desc" name="desc" className="border text-sm w-60"></textarea>
                     </div>
                     <div className="flex flex-row gap-3">
                         <div className="py-1 w-16"></div>

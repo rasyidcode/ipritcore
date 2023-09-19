@@ -1,5 +1,4 @@
 import { TransactionType } from "@prisma/client"
-import Link from "next/link"
 
 type TransactionItemProps = {
     id: number,
@@ -21,10 +20,10 @@ export function TransactionItem({ id, date, amount, desc, type }: TransactionIte
                     ) : (<span className={`text-red-500`}>&#45;</span>)}
                     {' '}Rp. {amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')},00</span>
             </div>
-            <div className="flex justify-end gap-2 mt-2">
+            {/* <div className="flex justify-end gap-2 mt-2">
                 <Link href="/edit" className="text-sm bg-orange-100 px-1">edit</Link>
                 <button className="text-sm bg-red-100 px-1">delete</button>
-            </div>
+            </div> */}
         </div>
     )
 }
