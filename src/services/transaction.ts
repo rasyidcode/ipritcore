@@ -16,14 +16,18 @@ export function get(id: number) {
     return prisma.transaction.findFirst({ where: { id: id } })
 }
 
+export function getAllIds() {
+    return prisma.transaction.findMany({ select: { id: true } })
+}
+
 export async function create(transaction: TransactionData) {
     await prisma.transaction.create({ data: { 
-        date: new Date(transaction.date), 
-        desc: transaction.desc, 
-        amount: transaction.amount, 
-        type: transaction.type
-    }
-})
+            date: new Date(transaction.date), 
+            desc: transaction.desc, 
+            amount: transaction.amount, 
+            type: transaction.type
+        }
+    })
 }
 
 export function update(transaction: Transaction) {
