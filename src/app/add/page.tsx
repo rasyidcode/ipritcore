@@ -1,6 +1,6 @@
-import Layout from "@/components/Layout";
 import * as transaction from "@/services/transaction";
 import { TransactionType } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 async function createTransaction(data: FormData) {
@@ -30,6 +30,8 @@ async function createTransaction(data: FormData) {
         desc: desc,
         amount: parseInt(amount)
     })
+
+    revalidatePath('/')
 
     redirect("/")
 }

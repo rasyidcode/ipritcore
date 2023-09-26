@@ -1,4 +1,5 @@
 import * as transaction from "@/services/transaction";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 const deleteTransaction = async (data: FormData) => {
@@ -11,6 +12,8 @@ const deleteTransaction = async (data: FormData) => {
     }
 
     await transaction.purge(parseInt(id))
+
+    revalidatePath('/')
 
     redirect('/')
 }

@@ -1,5 +1,6 @@
 import * as transaction from "@/services/transaction";
 import { TransactionType } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 async function updateExpense(data: FormData) {
@@ -34,6 +35,8 @@ async function updateExpense(data: FormData) {
         desc: desc,
         amount: parseInt(amount)
     })
+
+    revalidatePath('/')
 
     redirect("/")
 }
