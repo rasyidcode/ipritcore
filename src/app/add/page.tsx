@@ -1,3 +1,4 @@
+import SubmitButton from "@/components/SubmitButton";
 import * as transaction from "@/services/transaction";
 import { TransactionType } from "@prisma/client";
 import { revalidatePath } from "next/cache";
@@ -69,7 +70,7 @@ export default function Page() {
                 </div>
                 <div className="flex flex-row gap-3">
                     <div className="py-1 w-16"></div>
-                    <button className="text-sm px-2 uppercase font-bold text-gray-700 border hover:bg-slate-100">Save</button>
+                    <SubmitButton />
                 </div>
             </form>
         </div>

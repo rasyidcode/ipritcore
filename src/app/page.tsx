@@ -5,8 +5,6 @@ import { revalidatePath } from "next/cache";
 export default async function Home() {
   const transactions = await transaction.getAll()
 
-  revalidatePath("/")
-
   return (
     <>
       <div className="p-4 border grid grid-cols-1 divide-y divide-dashed mb-2">
