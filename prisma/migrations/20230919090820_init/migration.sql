@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE `Transaction` MODIFY `createdAt` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3);
