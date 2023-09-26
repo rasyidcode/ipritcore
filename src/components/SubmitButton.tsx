@@ -12,8 +12,8 @@ const SubmitButton = () => {
             font-bold 
             text-gray-700
             border 
-            hover:bg-slate-100" aria-disabled={pending}>
-            Save
+            hover:bg-slate-100" aria-disabled={pending} disabled={pending}>
+            {!pending ? 'Save' : 'Saving...'}
         </button>
     )
 }
