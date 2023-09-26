@@ -23,7 +23,7 @@ export function TransactionItem({ id, date, amount, desc, type }: TransactionIte
             </div>
             <div className="flex justify-end gap-2 mt-2">
                 <Link href={`/edit/${id}`} className="text-sm bg-orange-100 px-1">edit</Link>
-                <button className="text-sm bg-red-100 px-1">delete</button>
+                <Link href={`/delete/${id}`} className="text-sm bg-red-100 px-1">delete</Link>
             </div>
         </div>
     )

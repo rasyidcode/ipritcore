@@ -1,11 +1,12 @@
 import { prisma } from "@/db";
-import { Transaction, TransactionType } from "@prisma/client";
+import { TransactionType } from "@prisma/client";
 
 export type TransactionData = {
-    date: string,
-    amount: number,
-    type: TransactionType,
-    desc: string
+    id?: number,
+    date?: string,
+    amount?: number,
+    type?: TransactionType,
+    desc?: string
 }
 
 export function getAll() {
@@ -21,17 +22,25 @@ export function getAllIds() {
 }
 
 export async function create(transaction: TransactionData) {
-    await prisma.transaction.create({ data: { 
-            date: new Date(transaction.date), 
-            desc: transaction.desc, 
-            amount: transaction.amount, 
-            type: transaction.type
+    await prisma.transaction.create({
+        data: {
+            date: new Date(transaction.date ?? ''),
+            desc: transaction.desc ?? '',
+            amount: transaction.amount ?? 0,
+            type: transaction.type ?? 'EXPENSES'
         }
     })
 }
 
-export function update(transaction: Transaction) {
-    prisma.transaction.update({ where: { id: transaction.id }, data: { ...transaction } })
+export async function update(transaction: TransactionData) {
+    await prisma.transaction.update({
+        where: { id: transaction.id }, data: {
+            date: new Date(transaction.date ?? ''),
+            desc: transaction.desc,
+            amount: transaction.amount,
+            type: transaction.type
+        }
+    })
 }
 
 export function softDelete(id: number) {
@@ -42,6 +51,6 @@ export function restore(id: number) {
     prisma.transaction.update({ where: { id: id }, data: { deletedAt: null } })
 }
 
-export function purge(id: number) {
-    prisma.transaction.delete({ where: { id: id } })
+export async function purge(id: number) {
+    await prisma.transaction.delete({ where: { id: id } })
 }
