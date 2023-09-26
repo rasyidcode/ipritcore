@@ -3,9 +3,9 @@ import * as transaction from "@/services/transaction";
 import { revalidatePath } from "next/cache";
 
 export default async function Home() {
-  revalidatePath("/")
-  
   const transactions = await transaction.getAll()
+
+  revalidatePath("/")
 
   return (
     <>
