@@ -1,5 +1,5 @@
-import SubmitButton from "@/components/SubmitButton";
-import * as transaction from "@/services/transaction";
+import SubmitButton from "../../components/SubmitButton";
+import * as transaction from "../../services/transaction";
 import { TransactionType } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";

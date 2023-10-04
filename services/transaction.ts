@@ -1,5 +1,5 @@
-import { prisma } from "@/db";
 import { TransactionType } from "@prisma/client";
+import { prisma } from "../utils/db";
 
 export type TransactionData = {
     id?: number,

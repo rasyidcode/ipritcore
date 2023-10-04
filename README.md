@@ -6,8 +6,9 @@ Practice app to learn Next.js
 
 ## To Do
 
-- [ ] Do not use /src directory
-- [ ] Prisma Conditional Data Source
+- [x] Do not use /src directory
+- [ ] ~~Prisma Conditional Data Source~~ *(currently not supported)*
+- [x] Since dynamic data source is not supported, connect to Vercel Postgres directly from local
 - [ ] Migrate data fetch strategy using the fetch API instead of experimental server action
 - [ ] Home Page show only current date transactions
 - [ ] Daily Total Expenses & Income

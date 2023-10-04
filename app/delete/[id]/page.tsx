@@ -1,4 +1,4 @@
-import * as transaction from "@/services/transaction";
+import * as transaction from "../../../services/transaction";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
