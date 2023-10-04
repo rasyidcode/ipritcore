@@ -9,7 +9,7 @@ Practice app to learn Next.js
 - [x] Do not use /src directory
 - [ ] ~~Prisma Conditional Data Source~~ *(currently not supported)*
 - [x] Since dynamic data source is not supported, connect to Vercel Postgres directly from local
-- [ ] Migrate data fetch strategy using the fetch API instead of experimental server action
+- [ ] ~~Migrate data fetch strategy using the fetch API instead of experimental server action~~ *(continue using Server Action)*
 - [ ] Home Page show only current date transactions
 - [ ] Daily Total Expenses & Income
 - [ ] Authentication using Next Auth
@@ -17,3 +17,4 @@ Practice app to learn Next.js
     - [ ] Sign With Github
     - [ ] Sign With Facebook
 - [ ] Pagination, showing only 10 transaction each page
+- [ ] Implement light/dark/follow-system theme mode

@@ -1,7 +1,8 @@
-import * as transaction from "../../../services/transaction";
 import { TransactionType } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+
+import * as transaction from "../../../utils/db";
 
 async function updateExpense(data: FormData) {
     'use server'
