@@ -16,6 +16,7 @@ Practice app to learn Next.js
 - [ ] ~~Use MongoDB Atlass instead of Vercel Postgres *(Vercel Postgres still in Beta)*~~
 - [ ] Update UI on all pages
 - [ ] Use [zod](https://zod.dev/) library to validate data
+- [ ] Use [@vercel/postgres](https://vercel.com/docs/storage/vercel-postgres) directly instead of using [prisma](https://www.prisma.io/)
 - [ ] Home Page show only current date transactions
 - [ ] Daily Total Expenses & Income
 - [ ] Authentication using Next Auth
