@@ -10,7 +10,7 @@ export const Header = () => {
     <header className="p-4 border flex flex-row justify-between mb-2">
     <h1 className="font-semibold p-1">Simple Expense Tracker</h1>
         {isHome ?
-            (<Link href="/add" className="
+            (<Link href="/create-expense" className="
                 border 
                 px-1 
                 text-sm 

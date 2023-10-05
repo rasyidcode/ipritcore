@@ -1,15 +1,7 @@
-import { TransactionType } from "@prisma/client"
+import { Transaction, TransactionType } from "@prisma/client"
 import Link from "next/link"
 
-type TransactionItemProps = {
-    id: number,
-    date: Date,
-    amount: number,
-    desc: string,
-    type: TransactionType
-}
-
-export function TransactionItem({ id, date, amount, desc, type }: TransactionItemProps) {
+export function ExpenseItem({ id, date, type, amount, desc }: Transaction) {
     return (
         <div className="py-4">
             <div className="flex">
@@ -22,8 +14,8 @@ export function TransactionItem({ id, date, amount, desc, type }: TransactionIte
                     {' '}Rp. {amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')},00</span>
             </div>
             <div className="flex justify-end gap-2 mt-2">
-                <Link href={`/edit/${id}`} className="text-sm bg-orange-100 px-1">edit</Link>
-                <Link href={`/delete/${id}`} className="text-sm bg-red-100 px-1">delete</Link>
+                <Link href={`/update-expense/${id}`} className="text-sm bg-orange-100 px-1">edit</Link>
+                <Link href={`/delete-expense/${id}`} className="text-sm bg-red-100 px-1">delete</Link>
             </div>
         </div>
     )

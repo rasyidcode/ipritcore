@@ -1,12 +1,12 @@
 import { createExpense } from "@/utils/actions";
 import ActionForm from "@/components/ActionForm";
 
-const AddPage = () => {
+const CreateExpense = () => {
     return (
         <ActionForm
             type="Create"
-            actionHandler={createExpense}/>
+            actionHandler={createExpense} />
     )
 }
 
-export default AddPage
+export default CreateExpense
