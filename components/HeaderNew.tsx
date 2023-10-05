@@ -1,6 +1,6 @@
 export const HeaderNew = () => {
   return (
-    <header className="p-4 border border-blue-100">
+    <header className="p-4 border-2 border-teal-500">
       <h1 className="
         font-extrabold p-1 text-center
         bg-gradient-to-r from-blue-400 

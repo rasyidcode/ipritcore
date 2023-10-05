@@ -10,7 +10,8 @@ const ExpenseItemNew = ({ id, desc, type, amount }: Transaction) => {
     <div className="
         flex justify-between 
         items-center cursor-pointer
-        p-2 hover:bg-teal-50"
+        p-2 hover:bg-teal-50
+        w-full"
       onClick={() => { router.push(`/item-action/${id}`) }}>
       <h3 className="font-light flex-1">{desc}</h3>
       {type === TransactionType.EXPENSES ?

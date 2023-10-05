@@ -23,7 +23,7 @@ export default function RootLayout({
           <div className="mx-auto lg:w-1/2">
             <HeaderNew />
 
-            <main className="mt-2 p-4 border border-blue-100 h-[640px]">
+            <main className="mt-2 p-4 border-2 border-teal-500 h-[640px] overflow-hidden">
               {children}
             </main>
 

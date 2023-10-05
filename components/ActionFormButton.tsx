@@ -14,7 +14,7 @@ const ActionFormButton = ({ text, pendingText }: { text: string, pendingText: st
                 font-bold 
                 text-teal-500
                 border
-                border-teal-100/60
+                border-teal-500
                 hover:bg-teal-100/60 flex justify-center items-center gap-2"
             aria-disabled={pending} 
             disabled={pending}>
