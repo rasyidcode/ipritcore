@@ -1,4 +1,4 @@
-import { Header } from '../components/Header'
+import { HeaderNew } from '@/components/HeaderNew'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
@@ -10,18 +10,24 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({
-  children
+  children,
+  modal
 }: {
-  children: React.ReactNode
+  children: React.ReactNode,
+  modal: React.ReactNode
 }) {
   return (
     <html lang="en">
       <body className={inter.className}>
         <div className="container p-2 mx-auto">
           <div className="mx-auto lg:w-1/2">
-            <Header />
+            <HeaderNew />
 
-            <main>{children}</main>
+            <main className="mt-2 p-4 border border-blue-100 h-[640px]">
+              {children}
+            </main>
+
+            {modal}
           </div>
         </div>
       </body>

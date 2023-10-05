@@ -1,6 +1,7 @@
 'use client'
 
 import { experimental_useFormStatus } from "react-dom"
+import { FaSave } from "react-icons/fa"
 
 const ActionFormButton = ({ text, pendingText }: { text: string, pendingText: string }) => {
     const { pending } = experimental_useFormStatus()
@@ -8,15 +9,16 @@ const ActionFormButton = ({ text, pendingText }: { text: string, pendingText: st
     return (
         <button 
             className="
-                text-sm px-2 
+                text-sm px-4 py-1
                 uppercase 
                 font-bold 
-                text-gray-700
-                border 
-                hover:bg-slate-100"
+                text-teal-500
+                border
+                border-teal-100/60
+                hover:bg-teal-100/60 flex justify-center items-center gap-2"
             aria-disabled={pending} 
             disabled={pending}>
-            {!pending ? text : pendingText}
+            <FaSave /> {!pending ? text : pendingText}
         </button>
     )
 }

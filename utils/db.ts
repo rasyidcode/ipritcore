@@ -26,6 +26,10 @@ export function get(id: number) {
     return prisma.transaction.findFirst({ where: { id: id } })
 }
 
+export function getExpensesByDate(date: Date) {
+    return prisma.transaction.findMany({ where: { date: date } })
+}
+
 export function getAllIds() {
     return prisma.transaction.findMany({ select: { id: true } })
 }

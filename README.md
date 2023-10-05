@@ -9,7 +9,12 @@ Practice app to learn Next.js
 - [x] Do not use /src directory
 - [ ] ~~Prisma Conditional Data Source~~ *(currently not supported)*
 - [x] Since dynamic data source is not supported, connect to Vercel Postgres directly from local
-- [ ] ~~Migrate data fetch strategy using the fetch API instead of experimental server action~~ *(continue using Server Action)*
+- [x] Separte actions with components
+- [x] Create a Form component for Add and Edit
+- [ ] ~~Migrate data fetch strategy using the **Fetch API** instead of experimental **Server Action**~~ *(continue using Server Action)*
+- [ ] ~~Migrate Prisma to MongoDB~~ *(keep using prisma for now)*
+- [ ] ~~Use MongoDB Atlass instead of Vercel Postgres *(Vercel Postgres still in Beta)*~~
+- [ ] Update UI on all pages
 - [ ] Home Page show only current date transactions
 - [ ] Daily Total Expenses & Income
 - [ ] Authentication using Next Auth
