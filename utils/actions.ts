@@ -72,8 +72,8 @@ export async function updateExpense(data: FormData) {
     redirect("/")
 }
 
-export const deleteExpense = async (data: FormData) => {
-    const id = data.get("id")?.valueOf()
+export const deleteExpense = async (prevState: any, formData: FormData) => {
+    const id = formData.get("id")?.valueOf()
 
     if (typeof id !== "string" || id.length === 0) {
         throw new Error("Invalid ID")
@@ -81,7 +81,5 @@ export const deleteExpense = async (data: FormData) => {
 
     await transaction.purge(parseInt(id))
 
-    revalidatePath('/')
-
-    redirect('/')
+    return { success: true, message: "Success deleted!" }
 }
