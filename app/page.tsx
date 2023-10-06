@@ -8,7 +8,7 @@ import CenteredMessage from "@/components/CenteredMessage"
 const ExpenseItemList = ({ expenses }: { expenses: Transaction[] }) => {
   return (
     <div className="mt-5 flex flex-col justify-start items-start divide-y divide-dashed flex-1">
-      {expenses.map(expense => (<ExpenseItemNew {...expense} />))}
+      {expenses.map(expense => (<ExpenseItemNew key={expense.id} {...expense} />))}
     </div>
   )
 }
