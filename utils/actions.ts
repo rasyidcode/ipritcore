@@ -72,7 +72,7 @@ export async function updateExpense(data: FormData) {
     redirect("/")
 }
 
-export const deleteExpense = async (prevState: any, formData: FormData) => {
+export const deleteExpense = async (/*prevState: any, */formData: FormData) => {
     const id = formData.get("id")?.valueOf()
 
     if (typeof id !== "string" || id.length === 0) {
