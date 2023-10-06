@@ -1,8 +1,17 @@
 import { prisma } from "../utils/db"
-import { FaPlus } from "react-icons/fa"
+import { FaAngry, FaPlus } from "react-icons/fa"
 import ExpenseItemNew from "@/components/ExpenseItemNew"
 import Link from "next/link"
-import NoData from "@/components/NoData"
+import { Transaction } from "@prisma/client"
+import CenteredMessage from "@/components/CenteredMessage"
+
+const ExpenseItemList = ({ expenses }: { expenses: Transaction[] }) => {
+  return (
+    <div className="mt-5 flex flex-col justify-start items-start divide-y divide-dashed flex-1">
+      {expenses.map(expense => (<ExpenseItemNew {...expense} />))}
+    </div>
+  )
+}
 
 export default async function Home() {
   const currentDate = new Date()
@@ -15,13 +24,9 @@ export default async function Home() {
         <Link href="/create-expense" className="text-sm flex justify-center items-center gap-2 text-teal-500 border border-teal-500 px-2 py-1 hover:bg-teal-100/60 transition-all ease-in-out duration-150 font-medium"><FaPlus /> <span>Create New</span></Link>
       </div>
 
-      <div className="mt-5 flex flex-col justify-start items-start divide-y divide-dashed flex-1">
-        {expenses.length > 0 ?
-          expenses.map(expense => 
-            (<ExpenseItemNew {...expense} />)) : 
-            (<NoData />)
-        }
-      </div>
+      {expenses.length > 0 ? 
+        (<ExpenseItemList expenses={expenses} />) : 
+        (<CenteredMessage message="No Data" icon={<FaAngry />} />)}
 
       <div className="flex flex-row gap-4">
         <div className="flex-1 bg-gradient-to-r from-red-500 to-orange-500 p-0.5">
