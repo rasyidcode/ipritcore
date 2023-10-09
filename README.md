@@ -16,6 +16,9 @@ Practice app to learn Next.js
 - [ ] ~~Use MongoDB Atlass instead of Vercel Postgres *(Vercel Postgres still in Beta)*~~
 - [x] Update UI on all pages
 - [x] Fix date and count expense income
+- [x] Do not use modal for item action
+- [ ] Fix button save loading
+- [ ] Add expense history
 - [ ] Update loading UI each page
 - [ ] Fix ActionFormButton loading state disabled
 - [ ] Use [zod](https://zod.dev/) library to validate data

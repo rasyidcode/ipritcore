@@ -83,3 +83,8 @@ export const deleteExpense = async (/*prevState: any, */formData: FormData) => {
 
     return { success: true, message: "Success deleted!" }
 }
+
+export const deleteExpense2 = async(id: number) => {
+    await transaction.prisma.transaction.delete({ where: { id: id } })
+    revalidatePath('/')
+}
