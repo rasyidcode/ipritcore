@@ -14,15 +14,17 @@ Practice app to learn Next.js
 - [ ] ~~Migrate data fetch strategy using the **Fetch API** instead of experimental **Server Action**~~ *(continue using Server Action)*
 - [ ] ~~Migrate Prisma to MongoDB~~ *(keep using prisma for now)*
 - [ ] ~~Use MongoDB Atlass instead of Vercel Postgres *(Vercel Postgres still in Beta)*~~
+- [ ] ~~Use [@vercel/postgres](https://vercel.com/docs/storage/vercel-postgres) directly instead of using [prisma](https://www.prisma.io/)~~
 - [x] Update UI on all pages
 - [x] Fix date and count expense income
 - [x] Do not use modal for item action
+- [x] Use Local Database for development
+- [ ] Add item numbers
 - [ ] Fix button save loading
 - [ ] Add expense history
 - [ ] Update loading UI each page
 - [ ] Fix ActionFormButton loading state disabled
 - [ ] Use [zod](https://zod.dev/) library to validate data
-- [ ] Use [@vercel/postgres](https://vercel.com/docs/storage/vercel-postgres) directly instead of using [prisma](https://www.prisma.io/)
 - [ ] Home Page show only current date transactions
 - [ ] Daily Total Expenses & Income
 - [ ] Authentication using Next Auth
