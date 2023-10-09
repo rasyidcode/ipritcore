@@ -11,17 +11,18 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-model Expense {
+model Transaction {
   id        Int             @id @default(autoincrement())
   date      DateTime        @db.Date
   amount    Int
-  desc      String          @db.Text
-  type      ExpenseType
+  note      String          @db.Text
+  type      TransactionType
   createdAt DateTime?       @default(now())
   updatedAt DateTime?       @updatedAt
 }
 
-enum ExpenseType {
-  EXPENSES
+enum TransactionType {
+  EXPENSE
   INCOME
+  TRANSFER
 }
