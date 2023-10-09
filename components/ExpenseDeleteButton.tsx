@@ -17,7 +17,7 @@ const ExpenseDeleteButton = ({ id }: { id: number }) => {
 
     return (
         <button
-            className="text-red-500 border border-red-500 p-1 
+            className="text-red-400 border border-red-400 p-1 
             hover:bg-red-100 transition-all duration-150 ease-in-out"
             onClick={onDelete} disabled={isPending}>
             {!isPending ? 

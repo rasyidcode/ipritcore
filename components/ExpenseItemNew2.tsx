@@ -16,8 +16,9 @@ const ExpenseItemNew2 = ({ id, desc, type, amount }: Transaction) => {
             Rp{amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
           </p>)}
         <div className="flex items-center justify-center gap-2">
-          <Link href={`/update-expense/${id}`} className="text-orange-500 border border-orange-500 p-1
-            hover:bg-orange-100 transition-all duration-150 ease-in-out">
+          <Link href={`/update-expense/${id}`} className="text-orange-400 border 
+          border-orange-400 p-1 hover:bg-orange-100 transition-all duration-150 
+            ease-in-out">
             <FaPencilAlt />
           </Link>
           <ExpenseDeleteButton id={id} />
