@@ -19,7 +19,7 @@ Practice app to learn Next.js
 - [x] Fix date and count expense income
 - [x] Do not use modal for item action
 - [x] Use Local Database for development
-- [ ] Rename Transaction to Expense
+- [x] Rename Transaction to Expense
 - [ ] Handle error on submit
 - [ ] Handle page not found
 - [ ] Add item numbers

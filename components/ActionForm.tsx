@@ -4,8 +4,8 @@ import { Transaction, TransactionType } from '@prisma/client'
 import ActionFormButton from './ActionFormButton'
 import {
   experimental_useFormState as useFormState
-} from "react-dom"
-import { ActionResult } from "@/utils/action"
+} from 'react-dom'
+import { ActionResult } from '@/utils/action'
 import ActionFormAlert from './ActionFormAlert'
 import { useRouter } from 'next/navigation'
 

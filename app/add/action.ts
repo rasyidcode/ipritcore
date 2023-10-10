@@ -6,7 +6,6 @@ import { TransactionType } from '@prisma/client'
 import prisma from '@/utils/db'
 
 import { ActionFormValidationError, ActionResult, getActionError } from '@/utils/action'
-import { redirect } from 'next/navigation'
 
 export async function create(_: ActionResult, formData: FormData): Promise<ActionResult> {
     try {
