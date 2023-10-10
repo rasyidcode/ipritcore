@@ -10,7 +10,7 @@ const AddPage = () => {
             <PageTitleBar pageTitle="Add Transaction" withBack />
 
             <PageContent>
-                <ActionForm actionHandler={create} />
+                <ActionForm actionHandler={create}/>
             </PageContent>
         </PageWrapper>
     )

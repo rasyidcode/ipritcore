@@ -1,22 +1,35 @@
-import { Transaction, TransactionType } from "@prisma/client"
-import ActionFormButton from "./ActionFormButton"
-import { ActionError } from "@/utils/error"
+'use client'
+
+import { Transaction, TransactionType } from '@prisma/client'
+import ActionFormButton from './ActionFormButton'
+import {
+  experimental_useFormState as useFormState
+} from "react-dom"
+import { ActionResult } from "@/utils/action"
+import ActionFormAlert from './ActionFormAlert'
+import { useRouter } from 'next/navigation'
 
 type ActionFormProps = {
-  actionHandler: ((formData: FormData) => Promise<void | ActionError>),
+  actionHandler: ((_: ActionResult, formData: FormData) => Promise<ActionResult>),
   data?: Transaction | null
 }
 
 const ActionForm = ({ actionHandler, data }: ActionFormProps) => {
+  const router = useRouter()
 
-  const formActionHandler = async (formData: FormData) => {
-    'use server'
+  const [formState, dispatchActionHandler] = useFormState(actionHandler, {
+    success: null,
+    message: null
+  })
 
-    const result = (await actionHandler(formData) as ActionError)
+  if (formState?.success) {
+    setTimeout(() => {
+      router.push('/')
+    }, 1000);
   }
 
   return (
-    <form action={formActionHandler} className="grid gap-3 mt-4">
+    <form action={dispatchActionHandler} className="flex flex-col gap-3 mt-4">
       {/* If edit add hidden input ID */}
       {data && (
         <input type="hidden" name="id" defaultValue={data?.id} />
@@ -36,7 +49,8 @@ const ActionForm = ({ actionHandler, data }: ActionFormProps) => {
               name="type"
               id="type"
               value="expense"
-              defaultChecked={data?.type === TransactionType.EXPENSE} />
+              defaultChecked={true || data?.type === TransactionType.EXPENSE}
+              required />
             <span className="text-sm py-1">
               Expense
             </span>
@@ -73,12 +87,21 @@ const ActionForm = ({ actionHandler, data }: ActionFormProps) => {
           className="basis-1/4 text-sm py-1">
           Date
         </label>
-        <input
-          type="date"
-          id="date"
-          name="date"
-          className="flex-1 border px-2 text-sm"
-          defaultValue={data?.date.toISOString().split('T')[0]} />
+        {!data ? (
+          <input
+            type="date"
+            id="date"
+            name="date"
+            className="flex-1 border px-2 text-sm"
+            defaultValue={(new Date).toISOString().split('T')[0]}
+            required />) : (
+          <input
+            type="date"
+            id="date"
+            name="date"
+            className="flex-1 border px-2 text-sm"
+            defaultValue={data?.date.toISOString().split('T')[0]}
+            required />)}
       </div>
 
       {/* The amount of expense */}
@@ -93,7 +116,8 @@ const ActionForm = ({ actionHandler, data }: ActionFormProps) => {
           id="amount"
           name="amount"
           className="flex-1 border text-sm px-2"
-          defaultValue={data?.amount} />
+          defaultValue={data != null ? data?.amount : 0}
+          required />
       </div>
 
       {/* Expense note */}
@@ -107,13 +131,17 @@ const ActionForm = ({ actionHandler, data }: ActionFormProps) => {
           id="note"
           name="note"
           className="flex-1 border text-sm px-2"
-          defaultValue={data?.note}></textarea>
+          defaultValue={data?.note}
+          placeholder='Enter a note e.g Groceries, Cat food'
+          required></textarea>
       </div>
 
       {/* Submit button */}
       <div className="flex flex-row gap-3 justify-center items-center mt-5">
         <ActionFormButton text={"Save"} pendingText={"Saving..."} />
       </div>
+
+      <ActionFormAlert {...formState}/>
     </form>
   )
 }

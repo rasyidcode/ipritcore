@@ -1,6 +1,6 @@
 import { get as getExpense } from "../../../utils/db";
 import ActionForm from "@/components/ActionForm";
-import { updateExpense } from "@/utils/actions";
+import { updateExpense } from "@/utils/action";
 
 const UpdateExpense = async ({ params }: { params: { id: string } }) => {
     const expense = await getExpense(parseInt(params.id))

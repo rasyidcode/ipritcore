@@ -1,13 +1,14 @@
 'use server'
 
-import prisma from '@/utils/db'
-import { ActionError, ActionFormValidationError, getActionError } from '@/utils/error'
-import { TransactionType } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
 import z from 'zod'
+import { TransactionType } from '@prisma/client'
+import prisma from '@/utils/db'
 
-export async function create(formData: FormData): Promise<void | ActionError> {
+import { ActionFormValidationError, ActionResult, getActionError } from '@/utils/action'
+import { redirect } from 'next/navigation'
+
+export async function create(_: ActionResult, formData: FormData): Promise<ActionResult> {
     try {
         const schema = z.object({
             type: z
@@ -27,21 +28,20 @@ export async function create(formData: FormData): Promise<void | ActionError> {
                 .min(1)
                 .transform((val) => new Date(val)),
             amount: z
-                .string()
-                .min(1)
-                .transform((val) => parseInt(val)),
+                .number()
+                .min(1000),
             note: z.string().min(1)
         })
     
         const result = schema.safeParse({
             type: formData.get('type'),
             date: formData.get('date'),
-            amount: formData.get('amount'),
+            amount: parseInt(formData.get('amount') as string),
             note: formData.get('note')
         })
     
         if (!result.success) {
-            throw new ActionFormValidationError('Validation error', result.error.issues)
+            throw new ActionFormValidationError('Validation error', result.error.flatten().fieldErrors)
         }
     
         await prisma.transaction.create({
@@ -55,8 +55,13 @@ export async function create(formData: FormData): Promise<void | ActionError> {
 
         revalidatePath('/')
 
-        redirect('/')
+        return {
+            success: true,
+            message: 'Create successful!'
+        }
     } catch(error) {
-        return getActionError(error)
+        const actionErr = getActionError(error)
+
+        return actionErr
     }
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { deleteExpense2 } from "@/utils/actions"
+import { deleteExpense2 } from "@/utils/action"
 import { useTransition } from "react"
 import { FaSpinner, FaTrash } from "react-icons/fa"
 

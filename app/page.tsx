@@ -8,11 +8,10 @@ import TransactionItem from '@/components/TransactionItem'
 import PageTitleBar from '@/components/PageTitleBar'
 import PageContent from '@/components/PageContent'
 import PageWrapper from '@/components/PageWrapper'
-import TransactionSummary from '@/components/TransactionSummary'
 
 const TransactionItemList = ({ transactions }: { transactions: Transaction[] }) => {
   return (
-    <div className='mt-5 flex flex-col justify-start items-start divide-y 
+    <div className='flex flex-col justify-start items-start divide-y 
     divide-dashed flex-1'>
       {transactions.map(transaction =>
       (<TransactionItem
@@ -44,16 +43,12 @@ export default async function Home() {
         </Link>
       </PageTitleBar>
 
-      <PageContent>
-        <div className='flex flex-col h-full'>
-          {transactions.length > 0 ?
-            (<TransactionItemList transactions={transactions} />) :
-            (<CenteredMessage message='No Data'>
-              <FaSadTear />
-            </CenteredMessage>)}
-
-          <TransactionSummary />
-        </div>
+      <PageContent isHome>
+        {transactions.length > 0 ?
+          (<TransactionItemList transactions={transactions} />) :
+          (<CenteredMessage message='No Data'>
+            <FaSadTear />
+          </CenteredMessage>)}
       </PageContent>
     </PageWrapper>
   )
