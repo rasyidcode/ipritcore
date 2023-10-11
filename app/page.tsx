@@ -8,6 +8,7 @@ import TransactionItem from '@/components/TransactionItem'
 import PageTitleBar from '@/components/PageTitleBar'
 import PageContent from '@/components/PageContent'
 import PageWrapper from '@/components/PageWrapper'
+import { useState } from 'react'
 
 const TransactionItemList = ({ transactions }: { transactions: Transaction[] }) => {
   return (
@@ -42,6 +43,8 @@ export default async function Home() {
           <span>Add New</span>
         </Link>
       </PageTitleBar>
+
+      <div className='mt-3'></div>
 
       <PageContent isHome>
         {transactions.length > 0 ?

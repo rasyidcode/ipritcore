@@ -20,19 +20,19 @@ Practice app to learn Next.js
 - [x] Do not use modal for item action
 - [x] Use Local Database for development
 - [x] Rename Transaction to Expense
-- [ ] Handle error on submit
-- [ ] Handle page not found
-- [ ] Add item numbers
-- [ ] Fix button save loading
-- [ ] Add expense history
-- [ ] Update loading UI each page
-- [ ] Fix ActionFormButton loading state disabled
-- [ ] Use [zod](https://zod.dev/) library to validate data
-- [ ] Home Page show only current date transactions
-- [ ] Daily Total Expenses & Income
+- [x] Handle error on submit
+- [x] Fix button save loading
+- [x] Use [zod](https://zod.dev/) library to validate data
+- [x] Home Page show only current date transactions
+- [x] Daily Total Expenses & Income
 - [ ] Authentication using Next Auth
     - [ ] Sign With Google
     - [ ] Sign With Github
     - [ ] Sign With Facebook
-- [ ] Pagination, showing only 10 transaction each page
 - [ ] Implement light/dark/follow-system theme mode
+- [ ] Handle page not found
+- [ ] Add item numbers
+- [ ] Add expense history
+- [ ] Update loading UI each page
+- [ ] Fix ActionFormButton loading state disabled
+- [ ] Pagination, showing only 10 transaction each page

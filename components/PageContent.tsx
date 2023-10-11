@@ -6,7 +6,7 @@ const PageContent = ({ children, isHome }: {
 }) => {
   return (
     <>
-      <div className='flex-1 mt-3 overflow-y-auto scrollbar'>
+      <div className='flex-1 overflow-y-auto scrollbar'>
         {children}
       </div>
 
