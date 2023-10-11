@@ -1,16 +1,24 @@
-import { get as getExpense } from "../../../utils/db";
-import ActionForm from "@/components/ActionForm";
-import { updateExpense } from "@/utils/action";
+import ActionForm from '@/components/ActionForm';
+import prisma from '@/utils/db';
+import { update } from './action';
+import PageContent from '@/components/PageContent';
+import PageTitleBar from '@/components/PageTitleBar';
+import PageWrapper from '@/components/PageWrapper';
 
-const UpdateExpense = async ({ params }: { params: { id: string } }) => {
-    const expense = await getExpense(parseInt(params.id))
+const EditPage = async ({ params }: { params: { id: string } }) => {
+    const trans = await prisma.transaction.findFirst({ where: { id: parseInt(params.id) } })
 
     return (
-        <ActionForm
-            actionHandler={updateExpense}
-            type="Update"
-            expense={expense} />
+        <PageWrapper>
+            <PageTitleBar pageTitle="Edit Transaction" withBack />
+
+            <PageContent>
+                <ActionForm
+                actionHandler={update}
+                data={trans}/>
+            </PageContent>
+        </PageWrapper>
     )
 }
 
-export default UpdateExpense
+export default EditPage

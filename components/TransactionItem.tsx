@@ -20,7 +20,7 @@ const TransactionItem = ({ id, note, type, amount }: Transaction) => {
         {/* Actions Button */}
         <div className='flex items-center justify-center gap-2'>
           {/* Edit button */}
-          <Link href={`/update-expense/${id}`} className='text-orange-400 border 
+          <Link href={`/edit/${id}`} className='text-orange-400 border 
           border-orange-400 p-1 hover:bg-orange-100 transition-all duration-150 
             ease-in-out'>
             <FaPencilAlt />

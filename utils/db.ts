@@ -16,14 +16,6 @@ export default prisma
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
 
-// export type TransactionData = {
-//     id?: number,
-//     date?: string,
-//     amount?: number,
-//     type?: TransactionType,
-//     desc?: string
-// }
-
 // export function getAll() {
 //     return prisma.transaction.findMany({ orderBy: { createdAt: 'desc' } })
 // }
