@@ -10,24 +10,21 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({
-  children,
-  modal
+  children
 }: {
-  children: React.ReactNode,
-  modal: React.ReactNode
+  children: React.ReactNode
 }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="container p-2 mx-auto">
-          <div className="mx-auto lg:w-1/2">
+        <div className='container p-2 mx-auto'>
+          <div className='mx-auto lg:w-1/2'>
             <HeaderNew />
 
-            <main className="mt-2 p-4 border-2 border-teal-500 
-              h-[640px] overflow-hidden">
+            <main className='mt-2 p-4 border-2 border-teal-500 
+              h-[640px] overflow-hidden'>
               {children}
             </main>
-            {modal}
           </div>
         </div>
       </body>
