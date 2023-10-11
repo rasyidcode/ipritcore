@@ -25,7 +25,7 @@ const ActionFormAlert = ({ success, message, error, errors }: {
                 { errors && (
                     <ul className='text-sm list-disc'>
                         {Object.keys(errors).map((errKey) => (
-                            <li>- <strong>{errKey}</strong>{` -> ${errors[errKey]}`}</li>
+                            <li key={errKey}>- <strong>{errKey}</strong>{` -> ${errors[errKey]}`}</li>
                         ))}
                     </ul>
                 ) }
