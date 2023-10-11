@@ -15,14 +15,14 @@ model Transaction {
   id        Int             @id @default(autoincrement())
   date      DateTime        @db.Date
   amount    Int
-  desc      String          @db.Text
+  note      String          @db.Text
   type      TransactionType
   createdAt DateTime?       @default(now())
   updatedAt DateTime?       @updatedAt
-  deletedAt DateTime?
 }
 
 enum TransactionType {
-  EXPENSES
+  EXPENSE
   INCOME
+  TRANSFER
 }

@@ -1,69 +1,67 @@
-import { PrismaClient, TransactionType } from "@prisma/client";
+import { PrismaClient } from '@prisma/client'
 
-const globalForPrisma = global as unknown as {
-    prisma: PrismaClient | undefined
+const prismaClientSingleton = () => {
+    return new PrismaClient()
 }
 
-export const prisma = globalForPrisma.prisma ?? new PrismaClient({
-    log: ["query"]
-})
+type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma
-
-export type TransactionData = {
-    id?: number,
-    date?: string,
-    amount?: number,
-    type?: TransactionType,
-    desc?: string
+const globalForPrisma = globalThis as unknown as {
+    prisma: PrismaClientSingleton | undefined
 }
 
-export function getAll() {
-    return prisma.transaction.findMany({ orderBy: { createdAt: 'desc' } })
-}
+const prisma = globalForPrisma.prisma ?? prismaClientSingleton()
 
-export function get(id: number) {
-    return prisma.transaction.findFirst({ where: { id: id } })
-}
+export default prisma
 
-export function getExpensesByDate(date: Date) {
-    return prisma.transaction.findMany({ where: { date: date }, orderBy: { createdAt: 'asc' } });
-}
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
 
-export function getAllIds() {
-    return prisma.transaction.findMany({ select: { id: true } })
-}
+// export function getAll() {
+//     return prisma.transaction.findMany({ orderBy: { createdAt: 'desc' } })
+// }
 
-export async function create(transaction: TransactionData) {
-    await prisma.transaction.create({
-        data: {
-            date: new Date(transaction.date ?? ''),
-            desc: transaction.desc ?? '',
-            amount: transaction.amount ?? 0,
-            type: transaction.type ?? 'EXPENSES'
-        }
-    })
-}
+// export function get(id: number) {
+//     return prisma.transaction.findFirst({ where: { id: id } })
+// }
 
-export async function update(transaction: TransactionData) {
-    await prisma.transaction.update({
-        where: { id: transaction.id }, data: {
-            date: new Date(transaction.date ?? ''),
-            desc: transaction.desc,
-            amount: transaction.amount,
-            type: transaction.type
-        }
-    })
-}
+// export function getExpensesByDate(date: Date) {
+//     return prisma.transaction.findMany({ where: { date: date }, orderBy: { createdAt: 'asc' } });
+// }
 
-export function softDelete(id: number) {
-    prisma.transaction.update({ where: { id: id }, data: { deletedAt: new Date() } })
-}
+// export function getAllIds() {
+//     return prisma.transaction.findMany({ select: { id: true } })
+// }
 
-export function restore(id: number) {
-    prisma.transaction.update({ where: { id: id }, data: { deletedAt: null } })
-}
+// export async function create(transaction: TransactionData) {
+//     await prisma.transaction.create({
+//         data: {
+//             date: new Date(transaction.date ?? ''),
+//             desc: transaction.desc ?? '',
+//             amount: transaction.amount ?? 0,
+//             type: transaction.type ?? 'EXPENSES'
+//         }
+//     })
+// }
 
-export async function purge(id: number) {
-    await prisma.transaction.delete({ where: { id: id } })
-}
+// export async function update(transaction: TransactionData) {
+//     await prisma.transaction.update({
+//         where: { id: transaction.id }, data: {
+//             date: new Date(transaction.date ?? ''),
+//             desc: transaction.desc,
+//             amount: transaction.amount,
+//             type: transaction.type
+//         }
+//     })
+// }
+
+// export function softDelete(id: number) {
+//     prisma.transaction.update({ where: { id: id }, data: { deletedAt: new Date() } })
+// }
+
+// export function restore(id: number) {
+//     prisma.transaction.update({ where: { id: id }, data: { deletedAt: null } })
+// }
+
+// export async function purge(id: number) {
+//     await prisma.transaction.delete({ where: { id: id } })
+// }
