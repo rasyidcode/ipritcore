@@ -59,6 +59,17 @@ async function main() {
     //     ]
     // })
     // end of [seed transaction]
+
+    // [seed user]
+    await prisma.user.upsert({
+        where: { email: 'user@demo.com' },
+        update: {},
+        create: {
+            name: 'Demo User',
+            email: 'user@demo.com'
+        }
+    })
+    // end of [seed user]
 }
 
 main()

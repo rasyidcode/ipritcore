@@ -1,5 +1,6 @@
 import GoogleProvider from 'next-auth/providers/google'
 import GitHubProvider from 'next-auth/providers/github'
+import CredentialsProvider from 'next-auth/providers/credentials'
 import { NextAuthOptions } from 'next-auth'
 import prisma from './db'
 
@@ -12,6 +13,39 @@ export const authOptions = {
         GitHubProvider({
             clientId: process.env.GITHUB_ID as string,
             clientSecret: process.env.GITHUB_SECRET as string
+        }),
+        CredentialsProvider({
+            id: 'demo-login',
+            name: 'Demo',
+            credentials: {
+                username: {
+                    label: 'Username',
+                    type: 'text',
+                    placeholder: 'demo',
+                    value: 'user@demo.com'
+                }
+            },
+            async authorize(credentials, _req) {
+                console.log('authorize credentials: ', credentials)
+                try {
+                    const user = await prisma.user.findFirst({ where: { email: credentials?.username } })
+                    if (user) {
+                        const authUser = {
+                            id: String(user.id),
+                            name: user.name,
+                            email: user.email
+                        }
+
+                        return authUser
+                    }
+
+                    return null
+                } catch (error) {
+                    console.log(error)
+
+                    return null
+                }
+            }
         })
     ],
     pages: {
