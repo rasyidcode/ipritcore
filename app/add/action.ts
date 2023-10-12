@@ -6,6 +6,8 @@ import { TransactionType } from '@prisma/client'
 import prisma from '@/utils/db'
 
 import { ActionFormValidationError, ActionResult, getActionError } from '@/utils/action'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/utils/auth'
 
 export async function create(_: ActionResult, formData: FormData): Promise<ActionResult> {
     try {
@@ -29,26 +31,36 @@ export async function create(_: ActionResult, formData: FormData): Promise<Actio
             amount: z
                 .number()
                 .min(1000),
-            note: z.string().min(1)
+            note: z.string().min(1),
+            category: z.number().min(1),
+            account: z.number().min(1),
         })
-    
+
         const result = schema.safeParse({
             type: formData.get('type'),
             date: formData.get('date'),
             amount: parseInt(formData.get('amount') as string),
-            note: formData.get('note')
+            note: formData.get('note'),
+            account: parseInt(formData.get('account') as string),
+            category: parseInt(formData.get('category') as string),
         })
-    
+
+
         if (!result.success) {
             throw new ActionFormValidationError('Validation error', result.error.flatten().fieldErrors)
         }
-    
+
+        const session = await getServerSession(authOptions)
+
         await prisma.transaction.create({
             data: {
                 type: result.data.type,
                 date: result.data.date,
                 amount: result.data.amount,
-                note: result.data.note
+                note: result.data.note,
+                userId: session?.user.id as number,
+                categoryId: result.data.category,
+                accountId: result.data.account
             }
         })
 
@@ -58,7 +70,7 @@ export async function create(_: ActionResult, formData: FormData): Promise<Actio
             success: true,
             message: 'Create successful!'
         }
-    } catch(error) {
+    } catch (error) {
         const actionErr = getActionError(error)
 
         return actionErr

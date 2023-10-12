@@ -29,7 +29,9 @@ export async function update(_: ActionResult, formData: FormData): Promise<Actio
             amount: z
                 .number()
                 .min(1000),
-            note: z.string().min(1)
+            note: z.string().min(1),
+            category: z.number().min(1),
+            account: z.number().min(1),
         })
     
         const result = schema.safeParse({
@@ -37,7 +39,9 @@ export async function update(_: ActionResult, formData: FormData): Promise<Actio
             type: formData.get('type'),
             date: formData.get('date'),
             amount: parseInt(formData.get('amount') as string),
-            note: formData.get('note')
+            note: formData.get('note'),
+            account: parseInt(formData.get('account') as string),
+            category: parseInt(formData.get('category') as string),
         })
     
         if (!result.success) {
@@ -50,7 +54,9 @@ export async function update(_: ActionResult, formData: FormData): Promise<Actio
                 type: result.data.type,
                 date: result.data.date,
                 amount: result.data.amount,
-                note: result.data.note
+                note: result.data.note,
+                categoryId: result.data.category,
+                accountId: result.data.account
             }
         })
 

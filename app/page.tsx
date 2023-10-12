@@ -8,7 +8,8 @@ import TransactionItem from '@/components/TransactionItem'
 import PageTitleBar from '@/components/PageTitleBar'
 import PageContent from '@/components/PageContent'
 import PageWrapper from '@/components/PageWrapper'
-import { useState } from 'react'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/utils/auth'
 
 const TransactionItemList = ({ transactions }: { transactions: Transaction[] }) => {
   return (
@@ -23,9 +24,14 @@ const TransactionItemList = ({ transactions }: { transactions: Transaction[] }) 
 }
 
 export default async function Home() {
+  const session = await getServerSession(authOptions)
+  
   const currentDate = new Date()
   const transactions = await prisma.transaction.findMany({
-    where: { date: currentDate },
+    where: {
+      date: currentDate,
+      userId: session?.user.id as number
+    },
     orderBy: { id: 'asc' }
   })
 
