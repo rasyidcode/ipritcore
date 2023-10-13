@@ -1,6 +1,6 @@
 'use client'
 
-import { Transaction, TransactionType } from '@prisma/client'
+import { Account, Category, Transaction, TransactionType } from '@prisma/client'
 import ActionFormButton from './ActionFormButton'
 import {
   experimental_useFormState as useFormState
@@ -11,10 +11,12 @@ import { useRouter } from 'next/navigation'
 
 type ActionFormProps = {
   actionHandler: ((_: ActionResult, formData: FormData) => Promise<ActionResult>),
-  data?: Transaction | null
+  data?: Transaction | null,
+  accounts: Account[],
+  categories: Category[]
 }
 
-const ActionForm = ({ actionHandler, data }: ActionFormProps) => {
+const ActionForm = ({ actionHandler, data, accounts, categories }: ActionFormProps) => {
   const router = useRouter()
 
   const [formState, dispatchActionHandler] = useFormState(actionHandler, {
@@ -34,6 +36,22 @@ const ActionForm = ({ actionHandler, data }: ActionFormProps) => {
       {data && (
         <input type="hidden" name="id" defaultValue={data?.id} />
       )}
+
+      {/* Account */}
+      <div className='flex flex-row gap-3'>
+        <label
+          htmlFor="account"
+          className="basis-1/4 text-sm py-1">
+          Account
+        </label>
+        <select name="account" id="account"
+          className='flex-1 border text-sm px-2'>
+          <option value="">-- Select Account --</option>
+          {accounts && accounts.map((account) => (
+            <option key={account.id} value={account.id} selected={account.id == data?.accountId}>{account.name}</option>
+          ))}
+        </select>
+      </div>
 
       {/* Transaction Type */}
       <div className="flex flex-row gap-3">
@@ -66,7 +84,7 @@ const ActionForm = ({ actionHandler, data }: ActionFormProps) => {
               Income
             </span>
           </div>
-          <div className="flex flex-row gap-3">
+          {/* <div className="flex flex-row gap-3">
             <input
               type="radio"
               name="type"
@@ -76,8 +94,24 @@ const ActionForm = ({ actionHandler, data }: ActionFormProps) => {
             <span className="text-sm py-1">
               Transfer
             </span>
-          </div>
+          </div> */}
         </div>
+      </div>
+
+      {/* Category */}
+      <div className='flex flex-row gap-3'>
+        <label
+          htmlFor="category"
+          className="basis-1/4 text-sm py-1">
+          Category
+        </label>
+        <select name="category" id="category"
+          className='flex-1 border text-sm px-2'>
+          <option value="">-- Select Category --</option>
+          {categories && categories.map((cat) => (
+            <option key={cat.id} value={cat.id} selected={cat.id == data?.categoryId}>{cat.name}</option>
+          ))}
+        </select>
       </div>
 
       {/* Date that expense happen */}
@@ -141,7 +175,7 @@ const ActionForm = ({ actionHandler, data }: ActionFormProps) => {
         <ActionFormButton text={"Save"} pendingText={"Saving..."} />
       </div>
 
-      <ActionFormAlert {...formState}/>
+      <ActionFormAlert {...formState} />
     </form>
   )
 }

@@ -7,6 +7,8 @@ import PageWrapper from '@/components/PageWrapper';
 
 const EditPage = async ({ params }: { params: { id: string } }) => {
     const trans = await prisma.transaction.findFirst({ where: { id: parseInt(params.id) } })
+    const accounts = await prisma.account.findMany()
+    const categories = await prisma.category.findMany()
 
     return (
         <PageWrapper>
@@ -14,8 +16,10 @@ const EditPage = async ({ params }: { params: { id: string } }) => {
 
             <PageContent>
                 <ActionForm
-                actionHandler={update}
-                data={trans}/>
+                    actionHandler={update}
+                    data={trans}
+                    categories={categories}
+                    accounts={accounts} />
             </PageContent>
         </PageWrapper>
     )
