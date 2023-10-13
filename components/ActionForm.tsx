@@ -48,7 +48,7 @@ const ActionForm = ({ actionHandler, data, accounts, categories }: ActionFormPro
           className='flex-1 border text-sm px-2'>
           <option value="">-- Select Account --</option>
           {accounts && accounts.map((account) => (
-            <option value={account.id} selected={account.id == data?.accountId}>{account.name}</option>
+            <option key={account.id} value={account.id} selected={account.id == data?.accountId}>{account.name}</option>
           ))}
         </select>
       </div>
@@ -109,7 +109,7 @@ const ActionForm = ({ actionHandler, data, accounts, categories }: ActionFormPro
           className='flex-1 border text-sm px-2'>
           <option value="">-- Select Category --</option>
           {categories && categories.map((cat) => (
-            <option value={cat.id} selected={cat.id == data?.categoryId}>{cat.name}</option>
+            <option key={cat.id} value={cat.id} selected={cat.id == data?.categoryId}>{cat.name}</option>
           ))}
         </select>
       </div>
