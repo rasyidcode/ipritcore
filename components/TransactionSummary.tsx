@@ -1,10 +1,11 @@
+import { authOptions } from '@/utils/auth'
 import prisma from '@/utils/db'
 import { numberToIDRFormat } from '@/utils/stringUtils'
 import { TransactionType } from '@prisma/client'
 import { getServerSession } from 'next-auth'
 
 const TransactionSummary = async () => {
-    const session = await getServerSession()
+    const session = await getServerSession(authOptions)
     const currentDate = new Date()
     const expensesTotal = await prisma.transaction.aggregate({
         _sum: {
