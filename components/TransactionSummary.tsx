@@ -1,8 +1,10 @@
 import prisma from '@/utils/db'
 import { numberToIDRFormat } from '@/utils/stringUtils'
 import { TransactionType } from '@prisma/client'
+import { getServerSession } from 'next-auth'
 
 const TransactionSummary = async () => {
+    const session = await getServerSession()
     const currentDate = new Date()
     const expensesTotal = await prisma.transaction.aggregate({
         _sum: {
@@ -10,7 +12,8 @@ const TransactionSummary = async () => {
         },
         where: {
             type: TransactionType.EXPENSE,
-            date: currentDate
+            date: currentDate,
+            userId: session?.user.id
         }
     })
     const incomeTotal = await prisma.transaction.aggregate({
@@ -19,7 +22,8 @@ const TransactionSummary = async () => {
         },
         where: {
             type: TransactionType.INCOME,
-            date: currentDate
+            date: currentDate,
+            userId: session?.user.id
         }
     })
 
