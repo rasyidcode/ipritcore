@@ -1,9 +1,11 @@
 import { getServerSession } from 'next-auth'
 import Image from 'next/image'
 import LogoutButton from './LogoutButton'
+import { authOptions } from '@/utils/auth'
+import { FaUserAlt } from 'react-icons/fa'
 
 const ProfileSection = async () => {
-    const session = await getServerSession()
+    const session = await getServerSession(authOptions)
 
     if (!session?.user) {
         return null
@@ -12,12 +14,17 @@ const ProfileSection = async () => {
     return (
         <div className='mt-2 p-4 border-2 border-teal-500 flex justify-between items-center'>
             <div className='flex gap-4'>
-                <Image
+                {session?.user?.image != null ? (<Image
                     src={session?.user?.image as string}
                     alt='User Image'
                     width={50}
                     height={50}
-                    className='border-2 border-teal-500' />
+                    className='border-2 border-teal-500' />)
+                    : (<div className='w-[50px] h-[50px] border-2
+                         border-teal-500 flex justify-center items-center
+                         text-2xl text-teal-500'>
+                        <FaUserAlt />
+                    </div>)}
 
                 <div className='flex flex-col'>
                     <h4 className='font-bold text-teal-500'>{session?.user?.name}</h4>

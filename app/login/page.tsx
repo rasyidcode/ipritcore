@@ -11,18 +11,28 @@ const SignInButtons = () => {
     return (
         <div className='flex flex-col gap-4 max-w-max flex-1 justify-center'>
             {/* Login As Demo */}
-            <button className='border border-yellow-300
+            <form onSubmit={(e) => {
+                e.preventDefault()
+
+                signIn('credentials', {
+                    email: 'user@demo.com',
+                    callbackUrl: '/',
+                }).then((response) => {
+                    console.log('response: ', response)
+                }).catch((error) => {
+                    console.log('error: ', error)
+                })
+            }}>
+                <button className='border border-yellow-300
                         px-3 py-1 flex justify-start items-center
                         gap-2 hover:bg-yellow-100/70 transition-all
-                        duration-150 ease-in-out text-yellow-600'
-                onClick={() => signIn('credentials', {
-                    id: 'demo-login',
-                    email: 'user@demo.com',
-                    callbackUrl: '/'
-                })}>
-                <span><FaEye /></span>
-                <span className='font-bold flex-1'>Login as Demo</span>
-            </button>
+                        duration-150 ease-in-out text-yellow-600
+                        w-full'
+                    type='submit'>
+                    <span><FaEye /></span>
+                    <span className='font-bold flex-1'>Login as Demo</span>
+                </button>
+            </form>
 
             {/* Google Login */}
             <button className='border border-blue-200
@@ -71,11 +81,12 @@ const LoginPage = () => {
                         (<SignInButtons />) :
                         (<AuthenticatedText />)}
 
+                    {session.status === 'unauthenticated' && (
                     <div className='bg-yellow-100 border border-yellow-500 
                         w-full flex items-center gap-2 p-2 text-sm'>
-                        <FaInfo /> 
+                        <FaInfo />
                         <p>Click <span className='font-bold text-yellow-800'>Login as Demo</span> to look around!</p>
-                    </div>
+                    </div>)}
                 </div>
             </PageContent>
         </PageWrapper>

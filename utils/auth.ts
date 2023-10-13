@@ -15,20 +15,19 @@ export const authOptions = {
             clientSecret: process.env.GITHUB_SECRET as string
         }),
         CredentialsProvider({
-            id: 'demo-login',
             name: 'Demo',
             credentials: {
-                username: {
-                    label: 'Username',
+                email: {
+                    label: 'Email',
                     type: 'text',
                     placeholder: 'demo',
                     value: 'user@demo.com'
-                }
+                },
             },
             async authorize(credentials, _req) {
-                console.log('authorize credentials: ', credentials)
                 try {
-                    const user = await prisma.user.findFirst({ where: { email: credentials?.username } })
+                    const user = await prisma.user.findFirst({ where: { email: credentials?.email} })
+
                     if (user) {
                         const authUser = {
                             id: String(user.id),
@@ -79,7 +78,7 @@ export const authOptions = {
         },
         async signIn({ user }) {
             try {
-                if (!user?.email || !user?.name || !user?.image) {
+                if (!user?.email || !user?.name) {
                     throw new Error(`Sign in error: ${user} not return anything`)
                 }
 
