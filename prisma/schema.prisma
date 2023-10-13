@@ -17,12 +17,12 @@ model Transaction {
   amount     Int
   note       String          @db.Text
   type       TransactionType
-  category   Category        @relation(fields: [categoryId], references: [id])
-  categoryId Int
-  account    Account         @relation(fields: [accountId], references: [id])
-  accountId  Int
-  user       User            @relation(fields: [userId], references: [id])
-  userId     Int
+  category   Category?        @relation(fields: [categoryId], references: [id])
+  categoryId Int?
+  account    Account?         @relation(fields: [accountId], references: [id])
+  accountId  Int?
+  user       User?            @relation(fields: [userId], references: [id])
+  userId     Int?
   createdAt  DateTime?       @default(now())
   updatedAt  DateTime?       @updatedAt
 }
