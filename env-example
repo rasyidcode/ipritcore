@@ -1,2 +1,4 @@
-POSTGRES_PRISMA_URL="postgres://postgres:secret@localhost:5433/expensetrackerdb?pgbouncer=true&connect_timeout=15"
-POSTGRES_URL_NON_POOLING="postgres://postgres:secret@localhost:5433/expensetrackerdb"
+POSTGRES_PRISMA_URL="postgres://postgres:secret@localhost:5432/expensetrackerdb?pgbouncer=true&connect_timeout=15"
+POSTGRES_URL_NON_POOLING="postgres://postgres:secret@localhost:5432/expensetrackerdb"
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="bchtmNtRiCygeMO65+eUCOmKoUzsKNnNY9zDGUgFAus=

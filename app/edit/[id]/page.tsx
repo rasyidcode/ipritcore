@@ -5,7 +5,8 @@ import PageContent from '@/components/PageContent';
 import PageTitleBar from '@/components/PageTitleBar';
 import PageWrapper from '@/components/PageWrapper';
 
-const EditPage = async ({ params }: { params: { id: string } }) => {
+const EditPage = async (props: { params: Promise<{ id: string }> }) => {
+    const params = await props.params;
     const trans = await prisma.transaction.findFirst({ where: { id: parseInt(params.id) } })
     const accounts = await prisma.account.findMany()
     const categories = await prisma.category.findMany()
