@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { FaArrowLeft } from 'react-icons/fa'
 
 const PageTitleBar = ({ children, pageTitle, withBack }: {
     pageTitle: string,
@@ -14,7 +13,6 @@ const PageTitleBar = ({ children, pageTitle, withBack }: {
                         href=".."
                         className="text-sm text-teal-500 border border-teal-500 
                         hover:bg-teal-100/60 p-1 rounded-full">
-                        <FaArrowLeft />
                     </Link>)}
                 <h3 className="font-bold text-teal-500">
                     {pageTitle}

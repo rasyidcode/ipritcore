@@ -1,15 +1,14 @@
-import Link from 'next/link'
-import { FaPlus, FaSadTear } from 'react-icons/fa'
-import { Transaction } from '@prisma/client'
-import prisma from '@/lib/prisma'
-import { dateToReadableFormat } from '@/utils/stringUtils'
-import CenteredMessage from '@/components/CenteredMessage'
-import TransactionItem from '@/components/TransactionItem'
-import PageTitleBar from '@/components/PageTitleBar'
-import PageContent from '@/components/PageContent'
-import PageWrapper from '@/components/PageWrapper'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/utils/auth'
+import Link from "next/link";
+import { Transaction } from "@prisma/client";
+import prisma from "@/lib/prisma";
+import { dateToReadableFormat } from "@/utils/stringUtils";
+import CenteredMessage from "@/components/CenteredMessage";
+import TransactionItem from "@/components/TransactionItem";
+import PageTitleBar from "@/components/PageTitleBar";
+import PageContent from "@/components/PageContent";
+import PageWrapper from "@/components/PageWrapper";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/utils/auth";
 
 const TransactionItemList = ({
   transactions,
@@ -50,7 +49,6 @@ export default async function Home() {
             border-teal-500 px-2 py-1 hover:bg-teal-100/60 
             transition-all ease-in-out duration-150 font-medium"
         >
-          <FaPlus />
           <span>Add New</span>
         </Link>
       </PageTitleBar>
@@ -61,9 +59,7 @@ export default async function Home() {
         {transactions.length > 0 ? (
           <TransactionItemList transactions={transactions} />
         ) : (
-          <CenteredMessage message="No Data">
-            <FaSadTear />
-          </CenteredMessage>
+          <CenteredMessage message="No Data">Sad</CenteredMessage>
         )}
       </PageContent>
     </PageWrapper>

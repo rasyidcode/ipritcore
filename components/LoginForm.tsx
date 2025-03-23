@@ -1,23 +1,68 @@
 "use client";
 
 import { signIn } from "next-auth/react";
+import { Label } from "./tremor/Label";
+import { Input } from "./tremor/Input";
+import { Button } from "./tremor/Button";
+import { FormEvent } from "react";
 
-export default function SignInButtons() {
-  function handleSignInWithDemo() {}
+export default function LoginForm() {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
 
-  function handleSignInWithGoogle() {}
+    const formData = new FormData(event.currentTarget);
+
+    signIn("credentials", {
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
+      callbackUrl: "/",
+    })
+      .then((response) => {
+        console.log("response: ", response);
+      })
+      .catch((error) => {
+        console.log("error: ", error);
+      });
+  }
 
   return (
-    <div className="flex flex-col gap-4 flex-1 justify-center">
-      <button
-        className="border border-blue-200
-                        px-3 py-1 flex justify-start items-center
-                        gap-2 hover:bg-blue-100/70 transition-all
-                        duration-150 ease-in-out text-blue-500"
-        onClick={() => signIn("google", { callbackUrl: "/" })}
-      >
-        <span className="font-bold flex-1">Sign with Google</span>
-      </button>
-    </div>
+    <form
+      onSubmit={handleSubmit}
+      action="#"
+      method="post"
+      className="mt-6 space-y-4"
+    >
+      <div>
+        <Label htmlFor="email" className="font-medium">
+          Email
+        </Label>
+        <Input
+          type="email"
+          id="email"
+          name="email"
+          autoComplete="email"
+          placeholder="john@company.com"
+          className="mt-2"
+          defaultValue="demo@example.com"
+        />
+      </div>
+      <div>
+        <Label htmlFor="password" className="font-medium">
+          Password
+        </Label>
+        <Input
+          type="password"
+          id="password"
+          name="password"
+          autoComplete="password"
+          placeholder="Password"
+          className="mt-2"
+          defaultValue="demo"
+        />
+      </div>
+      <Button type="submit" className="mt-4 w-full">
+        Sign in
+      </Button>
+    </form>
   );
 }
