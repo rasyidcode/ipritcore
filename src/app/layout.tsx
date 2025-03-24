@@ -7,7 +7,7 @@ import { ThemeProvider } from "next-themes";
 const geist = Geist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Uang Kemana",
+  title: "IpritCore",
   description: "Aplikasi pencatatan keuangan sederhana",
 };
 
