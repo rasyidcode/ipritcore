@@ -26,9 +26,7 @@ export default function RootLayout({
           disableTransitionOnChange
           attribute="class"
         >
-          <AuthProvider>
-            <main>{children}</main>
-          </AuthProvider>
+          <AuthProvider>{children}</AuthProvider>
         </ThemeProvider>
       </body>
     </html>

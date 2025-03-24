@@ -14,7 +14,7 @@ import { volume } from "@/data/support/volume";
 import { RiAddLine } from "@remixicon/react";
 import React from "react";
 
-export default function SupportDashboard() {
+export default function Dashboard() {
   const [isOpen, setIsOpen] = React.useState(false);
   return (
     <main>
