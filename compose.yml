@@ -1,14 +1,14 @@
 services:
   db:
     image: postgres:latest
-    container_name: expense-tracker-db
+    container_name: uang-kemana
     restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: secret
     volumes:
-      - expense-tracker-data:/var/lib/mysql
+      - uang-kemana-data:/var/lib/mysql
     ports:
-      - "5433:5432"
+      - "5432:5432"
 
 volumes:
-  expense-tracker-data:
+  uang-kemana-data:
