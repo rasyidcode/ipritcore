@@ -1,9 +1,9 @@
 import AuthProvider from "@/components/AuthProvider";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Inter } from "next/font/google";
 
-const geist = Geist({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "IpritCore",
@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${geist.className} antialiased`}>
+      <body className={`${inter.className} antialiased`}>
         <AuthProvider>
           <main>{children}</main>
         </AuthProvider>
