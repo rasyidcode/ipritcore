@@ -2,20 +2,128 @@
 
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
-import { CategoryBar } from "@/components/CategoryBar";
 import { Divider } from "@/components/Divider";
-import { LineChartSupport } from "@/components/LineChartSupport";
-import { ProgressCircle } from "@/components/ProgressCircle";
 import { TicketDrawer } from "@/components/ui/TicketDrawer";
-import { DataTable } from "@/components/ui/data-table-support/DataTable";
-import { columns } from "@/components/ui/data-table-support/columns";
-import { tickets } from "@/data/support/tickets";
-import { volume } from "@/data/support/volume";
-import { RiAddLine } from "@remixicon/react";
+import {
+  RiAddLine,
+  RiMoneyDollarCircleLine,
+  RiArrowDownSLine,
+  RiArrowUpSLine,
+} from "@remixicon/react";
 import React from "react";
+import { cx } from "@/lib/utils";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeaderCell,
+  TableRoot,
+  TableRow,
+} from "@/components/Table";
+import {
+  ColumnMeta,
+  flexRender,
+  getCoreRowModel,
+  getSortedRowModel,
+  SortDirection,
+  useReactTable,
+} from "@tanstack/react-table";
+
+const data = [
+  {
+    name: "Pengeluaran hari ini",
+    value: "Rp. 35.000",
+  },
+  {
+    name: "Pengeluaran minggu ini",
+    value: "Rp. 75.000",
+  },
+  {
+    name: "Pengeluaran bulan ini",
+    value: "Rp. 150.000",
+  },
+];
+
+const transactions = [
+  {
+    name: "Beli bawang merah dan putih",
+    amount: "Rp. 15.000",
+    createdAt: "2025-03-26"
+  },
+  {
+    name: "Dipinjamkan",
+    amount: "Rp. 34.000",
+    createdAt: "2025-03-26"
+  },
+  {
+    name: "Beli bawang merah dan putih",
+    amount: "Rp. 15.000",
+    createdAt: "2025-03-26"
+  },
+  {
+    name: "Beli bawang merah dan putih",
+    amount: "Rp. 15.000",
+    createdAt: "2025-03-26"
+  },
+  {
+    name: "Beli bawang merah dan putih",
+    amount: "Rp. 15.000",
+    createdAt: "2025-03-26"
+  },
+];
+
+const workspacesColumns = [
+  {
+    header: "Name",
+  },
+  {
+    header: "Owner",
+  },
+  {
+    header: "Status",
+  },
+  {
+    header: "Region",
+  },
+  {
+    header: "Capacity",
+  },
+  {
+    header: "Costs",
+    meta: {
+      align: "text-right",
+      displayName: "Costs",
+    },
+  },
+  {
+    header: "Last edited",
+    accessorKey: "lastEdited",
+    enableSorting: false,
+    meta: {
+      align: "text-right",
+      displayName: "Last edited",
+    },
+  },
+];
 
 export default function Dashboard() {
   const [isOpen, setIsOpen] = React.useState(false);
+  const table = useReactTable({
+    data: workspaces,
+    columns: workspacesColumns,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    initialState: {
+      sorting: [
+        {
+          id: "workspace",
+          desc: false,
+        },
+      ],
+    },
+  });
+
   return (
     <main>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -34,150 +142,135 @@ export default function Dashboard() {
           Buat Transaksi
           <RiAddLine className="-mr-0.5 size-5 shrink-0" aria-hidden="true" />
         </Button>
+        <Button
+          onClick={() => {}}
+          className="flex items-center gap-2 text-base sm:text-sm"
+          variant="secondary"
+        >
+          Budget Bulan Ini
+          <RiMoneyDollarCircleLine
+            className="-mr-0.5 size-5 shrink-0"
+            aria-hidden="true"
+          />
+        </Button>
         <TicketDrawer open={isOpen} onOpenChange={setIsOpen} />
       </div>
       <Divider />
-      <dl className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <Card>
-          <dt className="text-sm font-medium text-gray-900 dark:text-gray-50">
-            Current Tickets
-          </dt>
-          <dd className="mt-1 text-3xl font-semibold text-gray-900 dark:text-gray-50">
-            247
-          </dd>
-          <CategoryBar
-            values={[82, 13, 5]}
-            className="mt-6"
-            colors={["blue", "lightGray", "red"]}
-            showLabels={false}
-          />
-          <ul
-            role="list"
-            className="mt-4 flex flex-wrap gap-x-10 gap-y-4 text-sm"
-          >
-            <li>
-              <span className="text-base font-semibold text-gray-900 dark:text-gray-50">
-                82%
+      <dl className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {data.map((item) => (
+          <Card key={item.name}>
+            <dd className="flex items-start justify-between">
+              <span className="text-3xl font-semibold text-gray-900 dark:text-gray-50">
+                {item.value}
               </span>
-              <div className="flex items-center gap-2">
-                <span
-                  className="size-2.5 shrink-0 rounded-sm bg-blue-500 dark:bg-blue-500"
-                  aria-hidden="true"
-                />
-                <span className="text-sm">Resolved</span>
-              </div>
-            </li>
-            <li>
-              <span className="text-base font-semibold text-gray-900 dark:text-gray-50">
-                13%
-              </span>
-              <div className="flex items-center gap-2">
-                <span
-                  className="size-2.5 shrink-0 rounded-sm bg-gray-400 dark:bg-gray-600"
-                  aria-hidden="true"
-                />
-                <span className="text-sm">In Progress</span>
-              </div>
-            </li>
-            <li>
-              <span className="text-base font-semibold text-gray-900 dark:text-gray-50">
-                5%
-              </span>
-              <div className="flex items-center gap-2">
-                <span
-                  className="size-2.5 shrink-0 rounded-sm bg-red-500 dark:bg-red-500"
-                  aria-hidden="true"
-                />
-                <span className="text-sm">Escalated</span>
-              </div>
-            </li>
-          </ul>
-        </Card>
-        <Card>
-          <dt className="text-sm font-medium text-gray-900 dark:text-gray-50">
-            SLA Performance
-          </dt>
-          <div className="mt-4 flex flex-nowrap items-center justify-between gap-y-4">
-            <dd className="space-y-3">
-              <div>
-                <div className="flex items-center gap-2">
-                  <span
-                    className="size-2.5 shrink-0 rounded-sm bg-blue-500 dark:bg-blue-500"
-                    aria-hidden="true"
-                  />
-                  <span className="text-sm">Within SLA</span>
-                </div>
-                <span className="mt-1 block text-2xl font-semibold text-gray-900 dark:text-gray-50">
-                  83.3%
-                </span>
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span
-                    className="size-2.5 shrink-0 rounded-sm bg-red-500 dark:bg-red-500"
-                    aria-hidden="true"
-                  />
-                  <span className="text-sm text-gray-900 dark:text-gray-50">
-                    SLA Breached
-                  </span>
-                </div>
-                <span className="mt-1 block text-2xl font-semibold text-gray-900 dark:text-gray-50">
-                  16.7%
-                </span>
-              </div>
             </dd>
-            <ProgressCircle value={83} radius={45} strokeWidth={7} />
-          </div>
-        </Card>
-        <Card>
-          <dt className="text-sm font-medium text-gray-900 dark:text-gray-50">
-            Call Volume Trends
-          </dt>
-          <div className="mt-4 flex items-center gap-x-8 gap-y-4">
-            <dd className="space-y-3 whitespace-nowrap">
-              <div>
-                <div className="flex items-center gap-2">
-                  <span
-                    className="size-2.5 shrink-0 rounded-sm bg-blue-500 dark:bg-blue-500"
-                    aria-hidden="true"
-                  />
-                  <span className="text-sm">Today</span>
-                </div>
-                <span className="mt-1 block text-2xl font-semibold text-gray-900 dark:text-gray-50">
-                  573
-                </span>
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span
-                    className="size-2.5 shrink-0 rounded-sm bg-gray-400 dark:bg-gray-600"
-                    aria-hidden="true"
-                  />
-                  <span className="text-sm">Yesterday</span>
-                </div>
-                <span className="mt-1 block text-2xl font-semibold text-gray-900 dark:text-gray-50">
-                  451
-                </span>
-              </div>
-            </dd>
-            <LineChartSupport
-              className="h-28"
-              data={volume}
-              index="time"
-              categories={["Today", "Yesterday"]}
-              colors={["blue", "lightGray"]}
-              showTooltip={false}
-              valueFormatter={(number: number) =>
-                Intl.NumberFormat("us").format(number).toString()
-              }
-              startEndOnly={true}
-              showYAxis={false}
-              showLegend={false}
-            />
-          </div>
-        </Card>
+            <dt className="mt-1 text-sm text-gray-500 dark:text-gray-500">
+              {item.name}
+            </dt>
+          </Card>
+        ))}
       </dl>
-      <DataTable data={tickets} columns={columns} />
+      <Divider />
+      <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-50">
+        Daftar Pengeluaran
+      </h2>
+      <TableRoot>
+        <Table>
+          <TableHead>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  const sortingHandler =
+                    header.column.getToggleSortingHandler?.();
+                  const getAriaSortValue = (
+                    isSorted: false | SortDirection
+                  ) => {
+                    switch (isSorted) {
+                      case "asc":
+                        return "ascending";
+                      case "desc":
+                        return "descending";
+                      case false:
+                      default:
+                        return "none";
+                    }
+                  };
+
+                  return (
+                    <TableHeaderCell
+                      key={header.id}
+                      onClick={sortingHandler}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" && sortingHandler) {
+                          sortingHandler(event);
+                        }
+                      }}
+                      className={cx(
+                        header.column.getCanSort()
+                          ? "cursor-pointer select-none"
+                          : "",
+                        "px-0.5 py-1.5"
+                      )}
+                      tabIndex={header.column.getCanSort() ? 0 : -1}
+                      aria-sort={getAriaSortValue(header.column.getIsSorted())}
+                    >
+                      <div
+                        className={cx(
+                          header.column.columnDef.enableSorting === true
+                            ? "flex items-center justify-between gap-2 hover:bg-gray-50 hover:dark:bg-gray-900"
+                            : header.column.columnDef.meta?.align,
+                          "rounded-md px-3 py-1.5"
+                        )}
+                      >
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                        {header.column.getCanSort() ? (
+                          <div className="-space-y-2">
+                            <RiArrowUpSLine
+                              className={cx(
+                                "size-4 text-gray-900 dark:text-gray-50",
+                                header.column.getIsSorted() === "desc"
+                                  ? "opacity-30"
+                                  : ""
+                              )}
+                              aria-hidden={true}
+                            />
+                            <RiArrowDownSLine
+                              className={cx(
+                                "size-4 text-gray-900 dark:text-gray-50",
+                                header.column.getIsSorted() === "asc"
+                                  ? "opacity-30"
+                                  : ""
+                              )}
+                              aria-hidden={true}
+                            />
+                          </div>
+                        ) : null}
+                      </div>
+                    </TableHeaderCell>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHead>
+          <TableBody>
+            {table.getRowModel().rows.map((row) => (
+              <TableRow key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell
+                    key={cell.id}
+                    className={cx(cell.column.columnDef.meta?.align)}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableRoot>
     </main>
   );
 }
