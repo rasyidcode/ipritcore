@@ -1,7 +1,7 @@
 services:
   db:
     image: postgres:latest
-    container_name: uang-kemana
+    container_name: ipritcore 
     restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: secret
