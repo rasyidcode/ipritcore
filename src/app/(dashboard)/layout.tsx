@@ -1,4 +1,3 @@
-import Link from "next/link";
 import LogoutButton from "./_components/LogoutButton";
 
 export default function DashboardLayout({
@@ -11,15 +10,16 @@ export default function DashboardLayout({
       <nav className="p-4">
         <div className="flex items-center justify-between rounded-lg border p-2">
           <h1 className="uppercase text-xl">
-            Iprit<strong>Core</strong>
+            Iprit<strong className="text-blue-600">Core</strong>
           </h1>
           <ul className="inline-flex gap-2 items-center">
-            <li>
+            {/* <li>
               <Link
                 href="/"
-                className="font-semibold bg-gray-100 rounded-lg
+                className="font-semibold rounded-lg
             px-2 py-1 hover:bg-gray-100 transition-colors
-            duration-150 ease-linear text-sm"
+            duration-150 ease-linear text-sm  underline
+            underline-offset-4"
               >
                 Dasbor
               </Link>
@@ -32,7 +32,7 @@ export default function DashboardLayout({
               >
                 Transaksi
               </Link>
-            </li>
+            </li> */}
             <li>
               <LogoutButton />
             </li>
