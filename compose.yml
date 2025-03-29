@@ -1,14 +1,18 @@
 services:
   db:
     image: postgres:latest
-    container_name: ipritcore 
-    restart: unless-stopped
+    container_name: ipritcore
     environment:
       POSTGRES_PASSWORD: secret
     volumes:
-      - uang-kemana-data:/var/lib/mysql
+      - ipritcore-data:/var/lib/mysql
     ports:
       - "5432:5432"
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
 
 volumes:
-  uang-kemana-data:
+  ipritcore-data:
