@@ -1,7 +1,7 @@
 import { transactions } from "@/data/transactions";
-import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import { numberToIDRFormat } from "@/lib/stringUtils";
 import TransactionList from "./_components/TransactionList";
+import NewTransactionButton from "./_components/NewTransactionButton";
 
 export default function DashboardPage() {
   const balance = transactions.reverse().reduce((acc, curr) => {
@@ -38,14 +38,7 @@ export default function DashboardPage() {
           </h3>
         </div>
       </div>
-      <button
-        className="h-8 rounded-lg border border-solid px-4
-        text-sm flex items-center justify-center hover:bg-[#f2f2f2]
-        transition-colors duration-150 ease-linear gap-2 mt-2"
-      >
-        <PlusCircleIcon className="w-5 h-5" />
-        Catat Transaksi
-      </button>
+      <NewTransactionButton />
       <div className="flex-1 flex flex-col mt-4 overflow-hidden">
         <h2 className="text-lg font-semibold">Transaksi Terakhir</h2>
         <TransactionList transactions={transactions} />
