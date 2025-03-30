@@ -1,11 +1,22 @@
-import { transactions } from "@/data/transactions";
 import { numberToIDRFormat } from "@/lib/stringUtils";
 import TransactionList from "./_components/TransactionList";
 import NewTransactionButton from "./_components/NewTransactionButton";
+import prisma from "@/lib/prisma";
+import { TransactionType } from "@prisma/client";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const transactions = await prisma.transaction.findMany({
+    orderBy: [
+      {
+        date: "desc",
+      },
+      {
+        createdAt: 'desc'
+      }
+    ],
+  });
   const balance = transactions.reverse().reduce((acc, curr) => {
-    if (curr.type === "income") {
+    if (curr.type === TransactionType.INCOME) {
       return acc + curr.amount;
     }
 
@@ -14,7 +25,8 @@ export default function DashboardPage() {
   const totalExpenses = transactions
     .reverse()
     .reduce(
-      (acc, curr) => (curr.type === "expense" ? acc + curr.amount : acc),
+      (acc, curr) =>
+        curr.type === TransactionType.EXPENSE ? acc + curr.amount : acc,
       0
     );
   return (
@@ -41,7 +53,8 @@ export default function DashboardPage() {
       <NewTransactionButton />
       <div className="flex-1 flex flex-col mt-4 overflow-hidden">
         <h2 className="text-lg font-semibold">Transaksi Terakhir</h2>
-        <TransactionList transactions={transactions} />
+        {transactions && <TransactionList transactions={transactions} />}
+        {!transactions && <p>No data</p>}
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteById } from "@/app/action";
+import { deleteById } from "@/app/(dashboard)/action";
 import { useTransition } from "react";
 
 const ExpenseDeleteButton = ({ id }: { id: number }) => {

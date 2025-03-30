@@ -7,6 +7,7 @@ import {
   Square2StackIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
+import { Transaction, TransactionType } from "@prisma/client";
 
 export default function TransactionItem({
   transaction,
@@ -19,7 +20,9 @@ export default function TransactionItem({
         <h4 className="font-light">{transaction.name}</h4>
         <p
           className={`${
-            transaction.type === "income" ? "text-green-600" : "text-red-600"
+            transaction.type === TransactionType.INCOME
+              ? "text-green-600"
+              : "text-red-600"
           } font-semibold`}
         >
           {numberToIDRFormat(transaction.amount)}
@@ -44,15 +47,19 @@ export default function TransactionItem({
         dark:border-white/5"
         >
           <MenuItem>
-            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-black/10
-            dark:data-[focus]:bg-white/10">
+            <button
+              className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-black/10
+            dark:data-[focus]:bg-white/10"
+            >
               <PencilIcon className="size-4 fill-white/30" />
               Edit
             </button>
           </MenuItem>
           <MenuItem>
-            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-black/10
-            dark:data-[focus]:bg-white/10">
+            <button
+              className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-black/10
+            dark:data-[focus]:bg-white/10"
+            >
               <TrashIcon className="size-4 fill-white/30" />
               Delete
             </button>

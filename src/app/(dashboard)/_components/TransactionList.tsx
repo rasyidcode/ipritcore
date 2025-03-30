@@ -1,5 +1,6 @@
 import TransactionItem from "./TransactionItem";
 import TransactionGroupItem from "./TransactionGroupItem";
+import { Transaction } from "@prisma/client";
 
 export default function TransactionList({
   transactions,
@@ -7,12 +8,15 @@ export default function TransactionList({
   transactions: Transaction[];
 }) {
   const rows: React.ReactNode[] = [];
-  let lastDate: string | null = null;
+  let lastDate: Date | null = null;
 
   transactions.forEach((transaction) => {
-    if (transaction.date !== lastDate) {
+    if (transaction.date.getTime() != lastDate?.getTime()) {
       rows.push(
-        <TransactionGroupItem date={transaction.date} key={transaction.date} />
+        <TransactionGroupItem
+          date={transaction.date}
+          key={transaction.date.getTime()}
+        />
       );
     }
     rows.push(
@@ -20,6 +24,7 @@ export default function TransactionList({
     );
     lastDate = transaction.date;
   });
+  // console.log(rows);
   return (
     <div
       className="flex-1 divide-y dark:divide-white/[.09] border dark:border-white/[.09] mt-2

@@ -1,9 +1,9 @@
 "use server";
 
-import { revalidatePath } from 'next/cache'
-import z from 'zod'
-import { TransactionType } from '@prisma/client'
-import prisma from '@/lib/prisma'
+import { revalidatePath } from "next/cache";
+import z from "zod";
+import { TransactionType } from "@prisma/client";
+import prisma from "@/lib/prisma";
 
 import {
   ActionFormValidationError,
@@ -41,7 +41,7 @@ export async function create(
       account: z.number().min(1),
     });
 
-    const result = schema.safeParse({
+    const validatedFields = schema.safeParse({
       type: formData.get("type"),
       date: formData.get("date"),
       amount: parseInt(formData.get("amount") as string),
@@ -50,10 +50,10 @@ export async function create(
       category: parseInt(formData.get("category") as string),
     });
 
-    if (!result.success) {
+    if (!validatedFields.success) {
       throw new ActionFormValidationError(
         "Validation error",
-        result.error.flatten().fieldErrors
+        validatedFields.error.flatten().fieldErrors
       );
     }
 
@@ -61,13 +61,11 @@ export async function create(
 
     await prisma.transaction.create({
       data: {
-        type: result.data.type,
-        date: result.data.date,
-        amount: result.data.amount,
-        note: result.data.note,
+        name: validatedFields.data.note,
+        type: validatedFields.data.type,
+        date: validatedFields.data.date,
+        amount: validatedFields.data.amount,
         userId: session?.user.id as number,
-        categoryId: result.data.category,
-        accountId: result.data.account,
       },
     });
 

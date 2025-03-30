@@ -17,6 +17,14 @@ export function formatIdr(numStr: string): string {
   }).format(numericValue);
 }
 
+export function parseIdr(idrStr: string): number {
+  // Remove currency symbol, non-numeric characters, and spaces
+  const cleanedStr = idrStr.replace(/[^\d,]/g, "").replace(/,/g, "");
+
+  // Convert to number
+  return Number(cleanedStr) || 0;
+}
+
 export const dateToReadableFormat = (date: Date): string => {
   return `${date.toLocaleDateString("id-ID", {
     weekday: "long",
