@@ -10,7 +10,7 @@ export default function GoogleLogin() {
       className="flex w-full justify-center rounded-md px-3 py-1.5 text-sm/6
             font-semibold shadow-sm focus-visible:outline
             focus-visible:outline-2 focus-visible:outline-offset-2
-            focus-blue:outline-indigo-600 border hover:bg-gray-100
+            focus-blue:outline-indigo-600 border hover:bg-[#f2f2f2]
             transition-colors duration-150 ease-in-out items-center gap-2"
     >
       <svg viewBox="0 0 24 24" aria-hidden="true" className="size-6">

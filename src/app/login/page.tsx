@@ -19,7 +19,7 @@ export default async function LoginPage() {
     >
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h1 className="uppercase max-w-max mx-auto text-xl">
-          Iprit<strong className="text-blue-600">Core</strong>
+          Iprit<strong>Core</strong>
         </h1>
         <h2 className="mt-10 text-base font-bold tracking-tight text-gray-900">
           Sign in to your account

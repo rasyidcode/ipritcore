@@ -38,7 +38,7 @@ export default function FormLogin() {
             className="block w-full rounded-md bg-white px-3 py-1.5 text-base
             text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300
             placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2
-            focus:outline-blue-600 sm:text-sm/6"
+            focus:outline-black/90 sm:text-sm/6"
           />
         </div>
       </div>
@@ -54,7 +54,7 @@ export default function FormLogin() {
           <div className="text-sm">
             <a
               href="#"
-              className="font-semibold text-blue-600 hover:text-blue-500"
+              className="font-semibold text-foreground hover:text-[#383838]"
             >
               Forgot password?
             </a>
@@ -71,7 +71,7 @@ export default function FormLogin() {
             className="block w-full rounded-md bg-white px-3 py-1.5 text-base
             text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300
             placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2
-            focus:outline-blue-600 sm:text-sm/6"
+            focus:outline-black/90 sm:text-sm/6"
           />
         </div>
       </div>
@@ -79,10 +79,10 @@ export default function FormLogin() {
       <div>
         <button
           type="submit"
-          className="flex w-full justify-center rounded-md bg-blue-600 px-3
-              py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-blue-500
+          className="flex w-full justify-center rounded-md bg-foreground px-3
+              py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-[#383838]
               focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
-              focus-visible:outline-blue-600 transition-colors duration-150 ease-in-out"
+              focus-visible:outline-black/90 transition-colors duration-150 ease-in-out"
         >
           Sign in
         </button>
