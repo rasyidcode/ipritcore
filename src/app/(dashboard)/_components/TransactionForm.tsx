@@ -1,8 +1,9 @@
+"use client";
+
 import { formatIdr } from "@/lib/stringUtils";
 import { CloseButton } from "@headlessui/react";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import React from "react";
-import { createTransactionAction } from "../action";
 import { ActionResult } from "@/lib/action";
 import { Transaction, TransactionType } from "@prisma/client";
 
@@ -14,15 +15,20 @@ const initialState: ActionResult = {
 export default function TransactionForm({
   closeModal,
   transaction,
+  actionHandler,
 }: {
   closeModal: () => void;
   transaction: Transaction | null;
+  actionHandler: (
+    prevState: ActionResult,
+    formData: FormData
+  ) => Promise<ActionResult>;
 }) {
   const [amount, setAmount] = React.useState(
     transaction != null ? transaction.amount.toString() : "0"
   );
   const [state, formAction, pending] = React.useActionState(
-    createTransactionAction,
+    actionHandler,
     initialState
   );
 
@@ -44,6 +50,9 @@ export default function TransactionForm({
 
   return (
     <form action={formAction} className="flex flex-col gap-3 mt-4">
+      {transaction !== null && (
+        <input type="hidden" name="id" value={transaction.id} />
+      )}
       <div className="flex flex-row gap-3">
         <label htmlFor="name" className="basis-1/4 text-sm py-1">
           Nama

@@ -11,7 +11,6 @@ import { parseIdr } from "@/lib/stringUtils";
 import { TransactionType } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { z } from "zod";
 
 export async function deleteById(id: number) {
@@ -20,6 +19,7 @@ export async function deleteById(id: number) {
 }
 
 const schema = z.object({
+  id: z.string().min(1).optional(),
   name: z.string().min(1),
   type: z
     .string()
@@ -76,6 +76,47 @@ export async function createTransactionAction(
     return {
       success: true,
       message: "Berhasil membuat transaksi.",
+    };
+  } catch (error) {
+    return getActionError(error);
+  }
+}
+
+export async function updateTransactionAction(
+  _prevState: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  try {
+    const validatedFields = schema.safeParse({
+      id: formData.get("id"),
+      name: formData.get("name"),
+      type: formData.get("type"),
+      date: formData.get("date"),
+      amount: formData.get("amount"),
+    });
+
+    if (!validatedFields.success) {
+      throw new ActionFormValidationError(
+        "Validasi gagal!",
+        validatedFields.error.flatten().fieldErrors
+      );
+    }
+
+    await prisma.transaction.update({
+      where: { id: parseInt(validatedFields.data.id as string) },
+      data: {
+        name: validatedFields.data.name,
+        type: validatedFields.data.type,
+        date: validatedFields.data.date,
+        amount: validatedFields.data.amount,
+      },
+    });
+
+    revalidatePath("/");
+
+    return {
+      success: true,
+      message: "Data berhasil diperbaharui.",
     };
   } catch (error) {
     return getActionError(error);

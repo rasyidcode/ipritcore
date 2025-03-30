@@ -4,6 +4,7 @@ import TransactionForm from "@/app/(dashboard)/_components/TransactionForm";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import React from "react";
 import { useModalFormTransaction } from "./ModalFormTransactionProvider";
+import { createTransactionAction, updateTransactionAction } from "../action";
 
 export default function ModalFormTransaction() {
   const { isOpen, handleClose, transaction } = useModalFormTransaction();
@@ -19,7 +20,15 @@ export default function ModalFormTransaction() {
             p-4 rounded-lg shadow-lg w-full"
         >
           <DialogTitle className="font-bold">Form Transaksi</DialogTitle>
-          <TransactionForm closeModal={handleClose} transaction={transaction} />
+          <TransactionForm
+            closeModal={handleClose}
+            transaction={transaction}
+            actionHandler={
+              transaction !== null
+                ? updateTransactionAction
+                : createTransactionAction
+            }
+          />
         </DialogPanel>
       </div>
     </Dialog>
