@@ -1,3 +1,5 @@
+"use client";
+
 import { numberToIDRFormat } from "@/lib/stringUtils";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import {
@@ -6,12 +8,15 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import { Transaction, TransactionType } from "@prisma/client";
+import { useModalFormTransaction } from "@/components/ModalFormTransactionProvider";
 
 export default function TransactionItem({
   transaction,
 }: {
   transaction: Transaction;
 }) {
+  const { handleOpen } = useModalFormTransaction();
+
   return (
     <div className="p-2 flex items-center">
       <div className="flex-1 flex flex-col">
@@ -46,6 +51,7 @@ export default function TransactionItem({
         >
           <MenuItem>
             <button
+              onClick={handleOpen}
               className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-black/10
             dark:data-[focus]:bg-white/10"
             >

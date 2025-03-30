@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext } from "react";
+import React from "react";
 
 export type ModalFormTransactionType = {
   isOpen: boolean;
@@ -40,5 +40,5 @@ export function ModalFormTransactionProvider({
 }
 
 export function useModalFormTransaction() {
-  return useContext(ModalFormTransactionContext);
+  return React.useContext(ModalFormTransactionContext);
 }
