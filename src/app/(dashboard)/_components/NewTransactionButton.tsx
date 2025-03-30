@@ -34,7 +34,7 @@ export default function NewTransactionButton() {
             p-4 rounded-lg shadow-lg w-full"
           >
             <DialogTitle className="font-bold">Form Transaksi</DialogTitle>
-            <TransactionForm setModalToOpen={(issOpen) => setIsOpen(issOpen)} />
+            <TransactionForm closeModal={() => setIsOpen(false)} />
           </DialogPanel>
         </div>
       </Dialog>

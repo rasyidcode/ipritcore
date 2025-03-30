@@ -11,9 +11,9 @@ const initialState: ActionResult = {
 };
 
 export default function TransactionForm({
-  setModalToOpen,
+  closeModal,
 }: {
-  setModalToOpen: (value: boolean) => void;
+  closeModal: () => void;
 }) {
   const [amount, setAmount] = React.useState("0");
   const [state, formAction, pending] = React.useActionState(
@@ -23,17 +23,20 @@ export default function TransactionForm({
 
   function handleClose(_e: React.MouseEvent<HTMLButtonElement>): void {
     setAmount("0");
-    setModalToOpen(false);
+    closeModal();
   }
 
   function handleAmountOnChange(e: React.ChangeEvent<HTMLInputElement>): void {
     setAmount(formatIdr(e.target.value));
   }
 
-  // Close modal after successful form submission
-  if (state?.success) {
-    setModalToOpen(true);
-  }
+  // ✅ Close modal only when state.success changes
+  React.useEffect(() => {
+    // Close modal after successful form submission
+    if (state?.success) {
+      closeModal();
+    }
+  }, [state?.success]); // Only runs when `state.success` changes
 
   return (
     <form action={formAction} className="flex flex-col gap-3 mt-4">
