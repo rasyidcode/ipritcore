@@ -21,7 +21,7 @@ export default function DashboardPage() {
     <div className="flex-1 p-4 flex flex-col overflow-hidden">
       <h1 className="text-2xl font-bold">Dasbor</h1>
       <div className="flex gap-2 mt-4">
-        <div className="border flex-1 p-2 rounded-lg">
+        <div className="border dark:border-white/[.09] flex-1 p-2 rounded-lg">
           <p className="text-sm uppercase tracking-wider font-semibold">
             Saldo
           </p>
@@ -29,7 +29,7 @@ export default function DashboardPage() {
             {numberToIDRFormat(balance)}
           </h3>
         </div>
-        <div className="border flex-1 p-2 rounded-lg">
+        <div className="border dark:border-white/[.09] flex-1 p-2 rounded-lg">
           <p className="text-sm uppercase tracking-wider font-semibold">
             Pengeluaran
           </p>
