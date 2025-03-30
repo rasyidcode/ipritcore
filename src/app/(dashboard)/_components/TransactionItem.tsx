@@ -8,14 +8,20 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import { Transaction, TransactionType } from "@prisma/client";
-import { useModalFormTransaction } from "@/components/ModalFormTransactionProvider";
+import { useModalFormTransaction } from "./ModalFormTransactionProvider";
+import { useEffect } from "react";
 
 export default function TransactionItem({
   transaction,
 }: {
   transaction: Transaction;
 }) {
-  const { handleOpen } = useModalFormTransaction();
+  const { handleOpen, handleSetTransaction } = useModalFormTransaction();
+
+  function handleEdit(_e: React.MouseEvent<HTMLButtonElement>) {
+    handleOpen();
+    handleSetTransaction(transaction);
+  }
 
   return (
     <div className="p-2 flex items-center">
@@ -51,7 +57,7 @@ export default function TransactionItem({
         >
           <MenuItem>
             <button
-              onClick={handleOpen}
+              onClick={handleEdit}
               className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-black/10
             dark:data-[focus]:bg-white/10"
             >

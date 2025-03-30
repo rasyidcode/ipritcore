@@ -4,6 +4,7 @@ import { XCircleIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { createTransactionAction } from "../action";
 import { ActionResult } from "@/lib/action";
+import { Transaction, TransactionType } from "@prisma/client";
 
 const initialState: ActionResult = {
   success: null,
@@ -12,17 +13,20 @@ const initialState: ActionResult = {
 
 export default function TransactionForm({
   closeModal,
+  transaction,
 }: {
   closeModal: () => void;
+  transaction: Transaction | null;
 }) {
-  const [amount, setAmount] = React.useState("0");
+  const [amount, setAmount] = React.useState(
+    transaction != null ? transaction.amount.toString() : "0"
+  );
   const [state, formAction, pending] = React.useActionState(
     createTransactionAction,
     initialState
   );
 
   function handleClose(_e: React.MouseEvent<HTMLButtonElement>): void {
-    setAmount("0");
     closeModal();
   }
 
@@ -50,6 +54,7 @@ export default function TransactionForm({
           name="name"
           className="flex-1 border dark:border-black/[.45] text-sm px-2 dark:bg-[#383838] rounded-md"
           placeholder="Contoh: Beli sayur, isi bensin..."
+          defaultValue={transaction != null ? transaction.name : ""}
           required
         />
       </div>
@@ -65,7 +70,7 @@ export default function TransactionForm({
               name="type"
               id="type"
               value="expense"
-              defaultChecked={true}
+              defaultChecked={transaction?.type === TransactionType.EXPENSE}
               required
             />
             <span className="text-sm py-1">Pengeluaran</span>
@@ -76,7 +81,7 @@ export default function TransactionForm({
               name="type"
               id="type"
               value="income"
-              defaultChecked={false}
+              defaultChecked={transaction?.type === TransactionType.INCOME}
             />
             <span className="text-sm py-1">Pemasukkan</span>
           </div>
@@ -92,7 +97,11 @@ export default function TransactionForm({
           id="date"
           name="date"
           className="flex-1 border dark:border-black/[.45] text-sm px-2 dark:bg-[#383838] rounded-md"
-          defaultValue={new Date().toISOString().split("T")[0]}
+          defaultValue={
+            transaction != null
+              ? transaction.date.toISOString().split("T")[0]
+              : new Date().toISOString().split("T")[0]
+          }
           required
         />
       </div>

@@ -6,7 +6,7 @@ import React from "react";
 import { useModalFormTransaction } from "./ModalFormTransactionProvider";
 
 export default function ModalFormTransaction() {
-  const { isOpen, handleClose } = useModalFormTransaction();
+  const { isOpen, handleClose, transaction } = useModalFormTransaction();
 
   return (
     <Dialog open={isOpen} onClose={handleClose} className="relative z-50">
@@ -19,7 +19,7 @@ export default function ModalFormTransaction() {
             p-4 rounded-lg shadow-lg w-full"
         >
           <DialogTitle className="font-bold">Form Transaksi</DialogTitle>
-          <TransactionForm closeModal={handleClose} />
+          <TransactionForm closeModal={handleClose} transaction={transaction} />
         </DialogPanel>
       </div>
     </Dialog>

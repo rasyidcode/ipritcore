@@ -1,6 +1,6 @@
 "use client";
 
-import { useModalFormTransaction } from "@/components/ModalFormTransactionProvider";
+import { useModalFormTransaction } from "./ModalFormTransactionProvider";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 
 export default function NewTransactionButton() {
