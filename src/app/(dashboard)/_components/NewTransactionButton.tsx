@@ -22,9 +22,10 @@ export default function NewTransactionButton() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="h-8 rounded-lg border border-solid px-4
-        text-sm flex items-center justify-center hover:bg-[#f2f2f2]
-        transition-colors duration-150 ease-linear gap-2 mt-2"
+        className="h-8 bg-foreground rounded-lg border border-solid px-4
+        text-sm flex items-center justify-center hover:bg-[#383838]
+        transition-colors duration-150 ease-linear gap-2 mt-2 text-background
+        dark:hover:bg-[#ccc]"
       >
         <PlusCircleIcon className="w-5 h-5" />
         Catat Transaksi
@@ -53,6 +54,7 @@ export default function NewTransactionButton() {
                   id="name"
                   name="name"
                   className="flex-1 border text-sm px-2"
+                  placeholder="Contoh: Beli sayur, isi bensin..."
                   required
                 />
               </div>
@@ -119,26 +121,24 @@ export default function NewTransactionButton() {
                 <CloseButton
                   as="button"
                   onClick={() => setIsOpen(false)}
-                  className="h-8 rounded-lg border border-solid px-4
-        text-sm flex items-center justify-center hover:bg-red-500/90
-        transition-colors duration-150 ease-linear gap-2 mt-2 w-full
-        active:bg-red-500/90 bg-red-500 text-white"
+                  className="h-8 rounded-lg border border-solid border-black/[.08] px-4 text-sm flex
+                  items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] dark:border-white/[.145]
+                  transition-colors duration-150 ease-linear gap-2 mt-2 w-full hover:border-transparent"
                 >
                   <XCircleIcon className="size-5" />
                   Batal
                 </CloseButton>
                 <button
                   type="submit"
-                  className="h-8 rounded-lg border border-solid px-4
-        text-sm flex items-center justify-center hover:bg-[#f2f2f2]
-        transition-colors duration-150 ease-linear gap-2 mt-2 w-full
-        active:bg-[#f2f2f2]"
+                  className="h-8 bg-foreground text-background rounded-lg border border-solid px-4
+                  text-sm flex items-center justify-center hover:bg-[#383838]
+                  transition-colors duration-150 ease-linear gap-2 mt-2 w-full dark:hover:bg-[#ccc]"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    className="size-5 text-gray-700"
+                    className="size-5"
                   >
                     <path d="M7 19V13H17V19H19V7.82843L16.1716 5H5V19H7ZM4 3H17L21 7V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V4C3 3.44772 3.44772 3 4 3ZM9 15V19H15V15H9Z"></path>
                   </svg>
