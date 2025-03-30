@@ -5,8 +5,8 @@ export default function TransactionGroupItem({ date }: { date: string }) {
   newDate.setTime(Date.parse(date));
 
   return (
-    <div className="p-2 bg-gray-100">
-      <h3 className="text-gray-600 text-sm font-semibold">
+    <div className="p-2 bg-[#f2f2f2] dark:bg-white/5">
+      <h3 className="text-foreground text-sm font-semibold">
         {dateToReadableFormat(newDate)}
       </h3>
     </div>

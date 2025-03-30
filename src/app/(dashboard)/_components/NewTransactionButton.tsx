@@ -40,8 +40,8 @@ export default function NewTransactionButton() {
         justify-center p-4"
         >
           <DialogPanel
-            className="max-w-md space-y-4 border bg-white p-4 rounded-lg
-          shadow-lg w-full"
+            className="max-w-md space-y-4 border border-solid border-white/[.15] bg-background
+            p-4 rounded-lg shadow-lg w-full"
           >
             <DialogTitle className="font-bold">Form Transaksi</DialogTitle>
             <form action={() => {}} className="flex flex-col gap-3 mt-4">
@@ -53,7 +53,7 @@ export default function NewTransactionButton() {
                   type="text"
                   id="name"
                   name="name"
-                  className="flex-1 border text-sm px-2"
+                  className="flex-1 border dark:border-black/[.45] text-sm px-2 dark:bg-[#383838] rounded-md"
                   placeholder="Contoh: Beli sayur, isi bensin..."
                   required
                 />
@@ -96,7 +96,7 @@ export default function NewTransactionButton() {
                   type="date"
                   id="date"
                   name="date"
-                  className="flex-1 border px-2 text-sm"
+                  className="flex-1 border dark:border-black/[.45] text-sm px-2 dark:bg-[#383838] rounded-md"
                   defaultValue={new Date().toISOString().split("T")[0]}
                   required
                 />
@@ -110,7 +110,7 @@ export default function NewTransactionButton() {
                   id="amount"
                   type="text"
                   name="amount"
-                  className="flex-1 border text-sm px-2"
+                  className="flex-1 border dark:border-black/[.45] text-sm px-2 dark:bg-[#383838] rounded-md"
                   value={formatIdr(amount)}
                   onChange={handleAmountOnChange}
                   required

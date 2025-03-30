@@ -10,7 +10,7 @@ export default function DashboardLayout({
       <nav className="p-4">
         <div className="flex items-center justify-between rounded-lg border p-2">
           <h1 className="uppercase text-xl">
-            Iprit<strong className="text-blue-600">Core</strong>
+            Iprit<strong>Core</strong>
           </h1>
           <ul className="inline-flex gap-2 items-center">
             {/* <li>

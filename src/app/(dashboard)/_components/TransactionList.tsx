@@ -21,7 +21,7 @@ export default function TransactionList({
     lastDate = transaction.date;
   });
   return (
-    <div className="flex-1 divide-y border mt-2 overflow-y-auto rounded-lg">
+    <div className="flex-1 divide-y border mt-2 overflow-y-auto rounded-lg scrollbar">
       {rows}
     </div>
   );
