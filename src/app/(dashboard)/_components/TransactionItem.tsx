@@ -9,14 +9,15 @@ import {
 } from "@heroicons/react/24/outline";
 import { Transaction, TransactionType } from "@prisma/client";
 import { useModalFormTransaction } from "./ModalFormTransactionProvider";
-import { useEffect } from "react";
+import { deleteByIdAction } from "../action";
 
 export default function TransactionItem({
   transaction,
 }: {
   transaction: Transaction;
 }) {
-  const { handleOpen, handleSetTransaction } = useModalFormTransaction();
+  const { handleClose, handleOpen, handleSetTransaction } =
+    useModalFormTransaction();
 
   function handleEdit(_e: React.MouseEvent<HTMLButtonElement>) {
     handleOpen();
@@ -67,6 +68,10 @@ export default function TransactionItem({
           </MenuItem>
           <MenuItem>
             <button
+              onClick={() => {
+                deleteByIdAction(transaction.id);
+                handleClose();
+              }}
               className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-black/10
             dark:data-[focus]:bg-white/10"
             >

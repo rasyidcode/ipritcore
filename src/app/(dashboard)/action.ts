@@ -13,7 +13,7 @@ import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-export async function deleteById(id: number) {
+export async function deleteByIdAction(id: number) {
   await prisma.transaction.delete({ where: { id: id } });
   revalidatePath("/");
 }
