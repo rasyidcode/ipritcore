@@ -46,7 +46,7 @@ export default function TransactionForm({
     if (state?.success) {
       closeModal();
     }
-  }, [state?.success, closeModal()]); // Only runs when `state.success` changes
+  }, [state?.success]); // Only runs when `state.success` changes
 
   return (
     <form action={formAction} className="flex flex-col gap-3 mt-4">
