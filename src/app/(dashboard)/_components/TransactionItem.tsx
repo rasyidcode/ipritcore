@@ -1,10 +1,8 @@
 import { numberToIDRFormat } from "@/lib/stringUtils";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import {
-  ArchiveBoxXMarkIcon,
   EllipsisVerticalIcon,
   PencilIcon,
-  Square2StackIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import { Transaction, TransactionType } from "@prisma/client";
