@@ -61,7 +61,7 @@ export default function TransactionForm({
           type="text"
           id="name"
           name="name"
-          className="flex-1 border dark:border-black/[.45] text-sm px-2 dark:bg-[#383838] rounded-md"
+          className="flex-1 border dark:border-black/[.45] text-sm px-2 rounded-md dark:text-background"
           placeholder="Contoh: Beli sayur, isi bensin..."
           defaultValue={transaction != null ? transaction.name : ""}
           required
@@ -79,7 +79,11 @@ export default function TransactionForm({
               name="type"
               id="type"
               value="expense"
-              defaultChecked={transaction?.type === TransactionType.EXPENSE}
+              defaultChecked={
+                transaction !== null
+                  ? transaction?.type === TransactionType.EXPENSE
+                  : true
+              }
               required
             />
             <span className="text-sm py-1">Pengeluaran</span>
@@ -105,7 +109,7 @@ export default function TransactionForm({
           type="date"
           id="date"
           name="date"
-          className="flex-1 border dark:border-black/[.45] text-sm px-2 dark:bg-[#383838] rounded-md"
+          className="flex-1 border dark:border-black/[.45] text-sm px-2 dark:text-background rounded-md"
           defaultValue={
             transaction != null
               ? transaction.date.toISOString().split("T")[0]
@@ -124,7 +128,7 @@ export default function TransactionForm({
             id="amount"
             type="text"
             name="amount"
-            className="flex-1 border dark:border-black/[.45] text-sm px-2 dark:bg-[#383838] rounded-md"
+            className="flex-1 border dark:border-black/[.45] text-sm px-2 dark:text-background rounded-md"
             value={formatIdr(amount)}
             onChange={handleAmountOnChange}
             required

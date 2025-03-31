@@ -21,7 +21,7 @@ export default async function LoginPage() {
         <h1 className="uppercase max-w-max mx-auto text-xl">
           Iprit<strong>Core</strong>
         </h1>
-        <h2 className="mt-10 text-base font-bold tracking-tight text-gray-900">
+        <h2 className="mt-10 text-base font-bold tracking-tight text-foreground">
           Sign in to your account
         </h2>
       </div>
@@ -30,9 +30,9 @@ export default async function LoginPage() {
         <FormLogin />
 
         <div className="mt-5 flex items-center gap-4">
-          <hr className="flex-1" />
+          <hr className="flex-1 dark:border-white/[0.09]" />
           <p className="text-sm">Or continue with</p>
-          <hr className="flex-1" />
+          <hr className="flex-1 dark:border-white/[0.09]" />
         </div>
 
         <div className="mt-5">
