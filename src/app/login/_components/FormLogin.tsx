@@ -80,9 +80,9 @@ export default function FormLogin() {
       <div>
         <button
           type="submit"
-          className="flex w-full justify-center rounded-md bg-foreground px-3
+          className="flex w-full justify-center rounded-md bg-foreground dark:bg-white px-3
               py-1.5 text-sm/6 font-semibold text-background shadow-sm hover:bg-[#383838]
-              dark:hover:bg-[#f2f2f2] bg-white
+              dark:hover:bg-[#f2f2f2]
               focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
               focus-visible:outline-black/90 transition-colors duration-150 ease-in-out"
         >
