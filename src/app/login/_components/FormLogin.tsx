@@ -23,7 +23,7 @@ export default function FormLogin() {
       <div>
         <label
           htmlFor="email"
-          className="block text-sm/6 font-medium text-gray-900"
+          className="block text-sm/6 font-medium text-foreground"
         >
           Email address
         </label>
@@ -47,14 +47,15 @@ export default function FormLogin() {
         <div className="flex items-center justify-between">
           <label
             htmlFor="password"
-            className="block text-sm/6 font-medium text-gray-900"
+            className="block text-sm/6 font-medium text-foreground"
           >
             Password
           </label>
           <div className="text-sm">
             <a
               href="#"
-              className="font-semibold text-foreground hover:text-[#383838]"
+              className="font-semibold text-foreground hover:text-[#383838]
+              dark:hover:text-gray-400"
             >
               Forgot password?
             </a>
@@ -69,7 +70,7 @@ export default function FormLogin() {
             autoComplete="current-password"
             defaultValue={demoUser.password}
             className="block w-full rounded-md bg-white px-3 py-1.5 text-base
-            text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300
+            text-background outline outline-1 -outline-offset-1 outline-gray-300
             placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2
             focus:outline-black/90 sm:text-sm/6"
           />
@@ -80,7 +81,8 @@ export default function FormLogin() {
         <button
           type="submit"
           className="flex w-full justify-center rounded-md bg-foreground px-3
-              py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-[#383838]
+              py-1.5 text-sm/6 font-semibold text-background shadow-sm hover:bg-[#383838]
+              dark:hover:bg-[#ccc]
               focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
               focus-visible:outline-black/90 transition-colors duration-150 ease-in-out"
         >
