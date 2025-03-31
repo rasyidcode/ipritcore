@@ -15,19 +15,6 @@ async function main() {
     },
   });
   // end of [seed user]
-
-  // [seed transactions]
-  await prisma.transaction.createMany({
-    data: [
-      {
-        name: "Beli sayur",
-        amount: 54000,
-        type: TransactionType.EXPENSE,
-        date: new Date("2025-03-30 12:30:00"),
-      },
-    ],
-  });
-  // end of [seed transactions]
 }
 
 main()
