@@ -30,7 +30,8 @@ export default function TransactionList({
       className="flex-1 divide-y dark:divide-white/[.09] border dark:border-white/[.09] mt-2
     overflow-y-auto rounded-lg scrollbar"
     >
-      {rows}
+      {transactions.length > 0 && rows}
+      {transactions.length === 0 && <p>No data</p>}
     </div>
   );
 }

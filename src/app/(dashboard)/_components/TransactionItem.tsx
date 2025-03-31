@@ -25,7 +25,7 @@ export default function TransactionItem({
   }
 
   return (
-    <div className="p-2 flex items-center">
+    <div className="p-2 flex items-center w-full">
       <div className="flex-1 flex flex-col">
         <h4 className="font-light">{transaction.name}</h4>
         <p
