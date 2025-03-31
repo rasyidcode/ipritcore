@@ -15,20 +15,6 @@ async function main() {
     },
   });
   // end of [seed user]
-
-  const user = await prisma.user.findFirst();
-
-  // [seed transactions]
-  await prisma.transaction.create({
-    data: {
-      name: "Beli sayur",
-      amount: 54000,
-      type: TransactionType.EXPENSE,
-      date: new Date("2025-03-30 12:30:00"),
-      userId: user?.id,
-    },
-  });
-  // end of [seed transactions]
 }
 
 main()
