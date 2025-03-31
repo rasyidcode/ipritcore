@@ -1,83 +1,41 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, TransactionType } from "@prisma/client";
+import bcrypt from "bcrypt";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 async function main() {
-    // [seed categories]
-    const groceries = await prisma.category.upsert({
-        where: { name: 'Groceries' },
-        update: {},
-        create: { name: 'Groceries' }
-    })
-    const eat = await prisma.category.upsert({
-        where: { name: 'Eat'},
-        update: {},
-        create: { name: 'Eat' }
-    })
-    const rent = await prisma.category.upsert({
-        where: { name: 'Rent'},
-        update: {},
-        create: { name: 'Rent' }
-    })
-    const salary = await prisma.category.upsert({
-        where: { name: 'Salary'},
-        update: {},
-        create: { name: 'Salary' }
-    })
-    const bonus = await prisma.category.upsert({
-        where: { name: 'Bonus'},
-        update: {},
-        create: { name: 'Bonus' }
-    })
-    // end of [seed categories]
+  // [seed user]
+  await prisma.user.upsert({
+    where: { email: "demo@example.com" },
+    update: {},
+    create: {
+      name: "Demo User",
+      email: "demo@example.com",
+      password: await bcrypt.hash("demo", 10),
+    },
+  });
+  // end of [seed user]
 
-    // [seed account]
-    const myWallet = await prisma.account.upsert({
-        where: { name: 'My Wallet' },
-        update: {},
-        create: { name: 'My Wallet' }
-    })
-    const wifeWallet = await prisma.account.upsert({
-        where: { name: 'Wife\'s Wallet' },
-        update: {},
-        create: { name: 'Wife\'s Wallet' }
-    })
-    const atm = await prisma.account.upsert({
-        where: { name: 'Bank' },
-        update: {},
-        create: { name: 'Bank' }
-    })
-    // end of [seed account]
-
-    // [seed transaction]
-    // await prisma.transaction.createMany({
-    //     data: [
-    //         {
-    //             date: new Date(),
-                
-    //         }
-    //     ]
-    // })
-    // end of [seed transaction]
-
-    // [seed user]
-    await prisma.user.upsert({
-        where: { email: 'user@demo.com' },
-        update: {},
-        create: {
-            name: 'Demo User',
-            email: 'user@demo.com'
-        }
-    })
-    // end of [seed user]
+  // [seed transactions]
+  await prisma.transaction.createMany({
+    data: [
+      {
+        name: "Beli sayur",
+        amount: 54000,
+        type: TransactionType.EXPENSE,
+        date: new Date("2025-03-30 12:30:00"),
+      },
+    ],
+  });
+  // end of [seed transactions]
 }
 
 main()
-    .then(async () => {
-        await prisma.$disconnect()
-    })
-    .catch(async (e) => {
-        console.error(e)
-        await prisma.$disconnect()
-        process.exit(1)
-    })
+  .then(async () => {
+    await prisma.$disconnect();
+  })
+  .catch(async (e) => {
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
+  });
