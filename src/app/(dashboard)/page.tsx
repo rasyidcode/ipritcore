@@ -39,7 +39,7 @@ export default async function DashboardPage() {
     );
   return (
     <ModalFormTransactionProvider>
-      <div className="flex-1 p-4 flex flex-col overflow-hidden">
+      <div className="flex-1 p-4 flex flex-col overflow-hidden md:max-h-[768px]">
         <h1 className="text-2xl font-bold">Dasbor</h1>
         <div className="flex gap-2 mt-4">
           <div className="border dark:border-white/[.09] flex-1 p-2 rounded-lg">

@@ -1,7 +1,15 @@
 services:
+  node:
+    image: node:22-alpine
+    user: node
+    volumes:
+      - .:/app
+    ports:
+      - 3000:3000
+    working_dir: /app
+    command: sh -c "npm install && npm run dev"
   db:
     image: postgres:latest
-    container_name: ipritcore
     environment:
       POSTGRES_PASSWORD: secret
     volumes:
