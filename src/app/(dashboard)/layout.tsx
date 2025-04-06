@@ -6,7 +6,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="h-screen flex flex-col max-w-sm">
+    <div className="h-screen flex flex-col max-w-md mx-auto md:justify-center">
       <nav className="p-4">
         <div className="flex items-center justify-between rounded-lg border dark:border-white/[.145] p-2">
           <h1 className="uppercase text-xl">
