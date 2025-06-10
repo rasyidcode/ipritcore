@@ -13,6 +13,10 @@ export default async function DashboardPage() {
   const transactions = await prisma.transaction.findMany({
     where: {
       userId: session?.user.id,
+      date: {
+        gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1), // first day of this month
+        lt: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1), // first day of next month
+      },
     },
     orderBy: [
       {
