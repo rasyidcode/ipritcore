@@ -13,11 +13,6 @@ import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-export async function deleteByIdAction(id: number) {
-  await prisma.transaction.delete({ where: { id: id } });
-  revalidatePath("/");
-}
-
 const schema = z.object({
   id: z.string().min(1).optional(),
   name: z.string().min(1),
@@ -121,4 +116,9 @@ export async function updateTransactionAction(
   } catch (error) {
     return getActionError(error);
   }
+}
+
+export async function deleteByIdAction(id: number) {
+  await prisma.transaction.delete({ where: { id: id } });
+  revalidatePath("/");
 }
