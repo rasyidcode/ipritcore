@@ -34,7 +34,7 @@ export default async function DashboardPage() {
         <TransactionSummary balance={balance} totalExpenses={totalExpenses} />
         <NewTransactionButton />
         <div className="flex-1 flex flex-col mt-4 overflow-hidden">
-          <h2 className="text-lg font-semibold">Transaksi Terakhir</h2>
+          <h2 className="text-lg font-semibold">Transaksi Bulan Ini</h2>
           <TransactionList transactions={transactions} />
         </div>
       </div>
