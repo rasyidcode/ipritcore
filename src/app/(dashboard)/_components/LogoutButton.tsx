@@ -17,7 +17,7 @@ export default function LogoutButton() {
     // </button>
     <button
       onClick={() => signOut()}
-      className="bg-foreground rounded-lg border border-solid px-2 py-1
+      className="bg-foreground rounded-lg px-2 py-1
         text-sm flex items-center justify-center hover:bg-[#383838]
         transition-colors duration-150 ease-linear gap-1 text-background
         dark:hover:bg-[#ccc] font-semibold"

@@ -13,7 +13,7 @@ services:
     environment:
       POSTGRES_PASSWORD: secret
     volumes:
-      - ipritcore-data:/var/lib/mysql
+      - ipritcore-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
   adminer:

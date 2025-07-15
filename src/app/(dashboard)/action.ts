@@ -122,3 +122,25 @@ export async function deleteByIdAction(id: number) {
   await prisma.transaction.delete({ where: { id: id } });
   revalidatePath("/");
 }
+
+export async function fetchTransactions() {
+  const session = await getServerSession(authOptions);
+
+  return await prisma.transaction.findMany({
+    where: {
+      userId: session?.user.id,
+      date: {
+        gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1), // first day of this month
+        lt: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1), // first day of next month
+      },
+    },
+    orderBy: [
+      {
+        date: "desc",
+      },
+      {
+        createdAt: "desc",
+      },
+    ],
+  });
+}
