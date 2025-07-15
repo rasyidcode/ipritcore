@@ -13,26 +13,6 @@ export default function DashboardLayout({
             Iprit<strong>Core</strong>
           </h1>
           <ul className="inline-flex gap-2 items-center">
-            {/* <li>
-              <Link
-                href="/"
-                className="font-semibold rounded-lg
-            px-2 py-1 hover:bg-gray-100 transition-colors
-            duration-150 ease-linear text-sm  underline
-            underline-offset-4"
-              >
-                Dasbor
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/transactions"
-                className="rounded-lg transition-colors duration-150 ease-linear
-            px-2 py-1 hover:bg-gray-100 font-semibold text-sm"
-              >
-                Transaksi
-              </Link>
-            </li> */}
             <li>
               <LogoutButton />
             </li>
