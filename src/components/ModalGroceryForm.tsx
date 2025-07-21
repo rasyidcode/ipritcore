@@ -17,7 +17,7 @@ export default function ModalGroceryForm() {
     price: string;
   }>({ name: "", amount: 1, price: "0" });
   return (
-    <Dialog open={true} onClose={() => {}} className="relative z-50">
+    <Dialog open={false} onClose={() => {}} className="relative z-50">
       <div
         className="bg-black/75 fixed inset-0 flex w-screen items-center
         justify-center p-4"

@@ -26,3 +26,10 @@ body {
   scrollbar-width: thin;
   scrollbar-color: var(--scrollbar) transparent;
 }
+
+.modal-groceries-planning-form .react-datepicker-wrapper {
+  @apply flex-1 w-full;
+}
+.modal-groceries-planning-form .react-datepicker-wrapper .react-datepicker__input-container {
+  @apply w-full;
+}
