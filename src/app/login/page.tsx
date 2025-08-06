@@ -2,8 +2,8 @@ import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-import FormLogin from "./_components/FormLogin";
-import GoogleLogin from "./_components/GoogleLogin";
+import FormLogin from "@/components/FormLogin";
+import GoogleLogin from "@/components/GoogleLogin";
 
 export default async function LoginPage() {
   const session = await getServerSession(authOptions);
@@ -13,30 +13,30 @@ export default async function LoginPage() {
   }
 
   return (
-    <div
-      className="flex min-h-screen flex-col justify-center
-    px-6 py-12 lg:px-8"
-    >
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <h1 className="uppercase max-w-max mx-auto text-xl">
+    <div className="flex items-center justify-center h-full">
+      <div className="flex flex-col justify-center p-4 w-full">
+        <h1
+          className={`uppercase max-w-max mx-auto text-2xl text-center relative
+            after:content-[""] after:w-full after:absolute after:top-full after:left-0
+            after:h-[2px] after:bg-black after:mt-1 dark:text-white dark:after:bg-white`}
+        >
           Iprit<strong>Core</strong>
         </h1>
-        <h2 className="mt-10 text-base font-bold tracking-tight text-foreground">
-          Sign in to your account
+        <h2 className="text-base font-semibold tracking-tight mt-10 dark:text-white">
+          Silahkan login di bawah ini
         </h2>
-      </div>
+        <div className="mt-3">
+          <FormLogin />
 
-      <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
-        <FormLogin />
+          <div className="mt-5 flex items-center gap-4">
+            <hr className="flex-1 dark:border-white/10" />
+            <p className="text-sm dark:text-white">atau lanjutkan dengan</p>
+            <hr className="flex-1 dark:border-white/10" />
+          </div>
 
-        <div className="mt-5 flex items-center gap-4">
-          <hr className="flex-1 dark:border-white/[0.09]" />
-          <p className="text-sm">Or continue with</p>
-          <hr className="flex-1 dark:border-white/[0.09]" />
-        </div>
-
-        <div className="mt-5">
-          <GoogleLogin />
+          <div className="mt-5">
+            <GoogleLogin />
+          </div>
         </div>
       </div>
     </div>

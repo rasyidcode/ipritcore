@@ -7,12 +7,12 @@ export default function GoogleLogin() {
     <button
       onClick={() => signIn("google")}
       type="submit"
-      className="flex w-full justify-center rounded-md px-3 py-1.5 text-sm/6
-            font-semibold shadow-sm focus-visible:outline
-            focus-visible:outline-2 focus-visible:outline-offset-2
-            focus-blue:outline-indigo-600 border hover:bg-[#f2f2f2] dark:hover:bg-[#383838]
-            dark:border-white/[0.09]
-            transition-colors duration-150 ease-in-out items-center gap-2"
+      className="flex w-full justify-center rounded px-3 py-1.5 text-sm/6
+      font-semibold shadow-sm focus-visible:outline focus-visible:outline-2
+      focus-visible:outline-offset-2 focus-visible:outline-black/90 border
+      border-black/10 gap-2 dark:text-white dark:border-white/10
+      hover:bg-black/5 dark:hover:bg-white/5 transition-colors ease-linear
+      duration-150"
     >
       <svg viewBox="0 0 24 24" aria-hidden="true" className="size-6">
         <path
@@ -32,7 +32,7 @@ export default function GoogleLogin() {
           fill="#34A853"
         ></path>
       </svg>
-      Sign in with Google
+      Masuk dengan Google
     </button>
   );
 }
