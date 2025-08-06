@@ -1,23 +1,27 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 
 const demoUser = {
-  username: "demo@example.com",
+  email: "demo@example.com",
   password: "demo",
 };
 
 export default function FormLogin() {
+  const [email, setEmail] = useState(demoUser.email);
+  const [password, setPassword] = useState(demoUser.password);
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     await signIn("credentials", {
-      email: (e.currentTarget.email as HTMLInputElement).value,
-      password: (e.currentTarget.password as HTMLInputElement).value,
+      email: email,
+      password: password,
       callbackUrl: "/",
     });
   }
+
   return (
     <form onSubmit={handleSubmit} method="POST" className="space-y-6">
       <div>
@@ -34,7 +38,8 @@ export default function FormLogin() {
             type="email"
             required
             autoComplete="email"
-            defaultValue={demoUser.username}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="block w-full rounded px-3 py-1.5 bg-black/5 dark:bg-white/5 text-base outline outline-1
             -outline-offset-1 outline-black/10 dark:outline-white/10 focus:outline-2 focus:-outline-offset-2
           focus:outline-black/90 dark:focus:outline-white/90 dark:text-white"
@@ -61,7 +66,8 @@ export default function FormLogin() {
             type="password"
             required
             autoComplete="current-password"
-            defaultValue={demoUser.password}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             className="block w-full rounded px-3 py-1.5 bg-black/5 dark:bg-white/5 text-base outline outline-1
             -outline-offset-1 outline-black/10 dark:outline-white/10 focus:outline focus:outline-2 focus:-outline-offset-2
             focus:outline-black/90 dark:focus:outline-white/90 dark:text-white"
