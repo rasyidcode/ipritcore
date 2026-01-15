@@ -1,4 +1,4 @@
-import LogoutButton from "./_components/LogoutButton";
+import LogoutButton from "@/components/LogoutButton";
 
 export default function DashboardLayout({
   children,

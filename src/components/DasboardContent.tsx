@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import NewTransactionButton from "./NewTransactionButton";
-import TransactionList from "./TransactionList";
-import TransactionSummary from "./TransactionSummary";
+import NewTransactionButton from "@/components/NewTransactionButton";
+import TransactionList from "@/components/TransactionList";
+import TransactionSummary from "@/components/TransactionSummary";
 import { Transaction, TransactionType } from "@prisma/client";
-import { fetchTransactions } from "../action";
+import { fetchTransactions } from "@/app/(dashboard)/action";
 
 export default function DashboardContent() {
     const [transactions, setTransactions] = useState<Transaction[]>([])

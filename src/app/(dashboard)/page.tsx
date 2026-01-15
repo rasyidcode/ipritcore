@@ -1,13 +1,12 @@
-import TransactionList from "./_components/TransactionList";
-import NewTransactionButton from "./_components/NewTransactionButton";
+import TransactionList from "@/components/TransactionList";
+import NewTransactionButton from "@/components/NewTransactionButton";
 import prisma from "@/lib/prisma";
 import { TransactionType } from "@prisma/client";
-import { ModalFormTransactionProvider } from "@/app/(dashboard)/_components/ModalFormTransactionProvider";
-import ModalFormTransaction from "@/app/(dashboard)/_components/ModalFormTransaction";
+import { ModalFormTransactionProvider } from "@/components/ModalFormTransactionProvider";
+import ModalFormTransaction from "@/components/ModalFormTransaction";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import TransactionSummary from "./_components/TransactionSummary";
-// import ModalFormFilterDate from "./_components/ModalFormFilterDate";
+import TransactionSummary from "@/components/TransactionSummary";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);

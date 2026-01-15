@@ -9,7 +9,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Transaction, TransactionType } from "@prisma/client";
 import { useModalFormTransaction } from "./ModalFormTransactionProvider";
-import { deleteByIdAction } from "../action";
+import { deleteByIdAction } from "@/app/(dashboard)/action";
 
 export default function TransactionItem({
   transaction,
