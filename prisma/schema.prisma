@@ -9,15 +9,15 @@ datasource db {
 }
 
 model Transaction {
-  id         Int             @id @default(autoincrement())
-  name       String
-  amount     Int
-  type       TransactionType
-  date       DateTime        @db.Date
-  createdAt  DateTime?       @default(now())
-  updatedAt  DateTime?       @updatedAt
-  userId     Int?
-  user       User?           @relation(fields: [userId], references: [id])
+  id        Int             @id @default(autoincrement())
+  name      String
+  amount    Int
+  type      TransactionType
+  date      DateTime        @db.Date
+  createdAt DateTime?       @default(now())
+  updatedAt DateTime?       @updatedAt
+  userId    Int?
+  user      User?           @relation(fields: [userId], references: [id])
 }
 
 model User {
@@ -29,6 +29,29 @@ model User {
   createdAt    DateTime?     @default(now())
   updatedAt    DateTime?     @updatedAt
   transactions Transaction[]
+  groceryPlans GroceryPlan[]
+}
+
+model GroceryPlan {
+  id        Int               @id @default(autoincrement())
+  monthYear String
+  budget    Int
+  createdAt DateTime?         @default(now())
+  updatedAt DateTime?         @updatedAt
+  userId    Int?
+  user      User?             @relation(fields: [userId], references: [id])
+  groceries GroceryPlanItem[]
+}
+
+model GroceryPlanItem {
+  id            Int          @id @default(autoincrement())
+  name          String
+  amount        Int
+  price         Int
+  createdAt     DateTime?    @default(now())
+  updatedAt     DateTime?    @updatedAt
+  groceryPlanId Int?
+  groceryPlan   GroceryPlan? @relation(fields: [groceryPlanId], references: [id])
 }
 
 enum TransactionType {

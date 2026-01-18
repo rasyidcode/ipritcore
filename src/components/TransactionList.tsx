@@ -1,5 +1,5 @@
-import TransactionItem from "./TransactionItem";
-import TransactionGroupItem from "./TransactionGroupItem";
+import TransactionItem from "../app/(dashboard)/_components/TransactionItem";
+import TransactionGroupItem from "../app/(dashboard)/_components/TransactionGroupItem";
 import { Transaction } from "@prisma/client";
 
 export default function TransactionList({
@@ -28,7 +28,7 @@ export default function TransactionList({
   return (
     <div
       className="flex-1 divide-y dark:divide-white/[.09] border dark:border-white/[.09] mt-2
-    overflow-y-auto rounded-lg scrollbar"
+    overflow-y-auto rounded-lg"
     >
       {transactions.length > 0 ? rows : <p>No data</p>}
     </div>
