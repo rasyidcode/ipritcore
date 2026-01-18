@@ -7,6 +7,7 @@ Simple expense tracker.
 ```bash
 $ cp ./env-example ./.env
 $ docker compose up -d
+$ npx prisma generate
 $ npx prisma migrate dev
 ```
 
