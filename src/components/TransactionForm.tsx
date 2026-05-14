@@ -44,20 +44,13 @@ export default function TransactionForm({
     (category) => category.type === selectedType
   );
 
-  const getDefaultCategoryId = React.useCallback(
+  const getSelectedCategoryId = React.useCallback(
     (type: TransactionType): number | "" => {
       if (transaction?.type === type) {
         return transaction.categoryId;
       }
 
-      return (
-        categories.find(
-          (category) =>
-            category.type === type && category.name === "Lain-lain"
-        )?.id ??
-        categories.find((category) => category.type === type)?.id ??
-        ""
-      );
+      return categories.find((category) => category.type === type)?.id ?? "";
     },
     [categories, transaction]
   );
@@ -76,16 +69,16 @@ export default function TransactionForm({
 
   function handleTypeChange(type: TransactionType): void {
     setSelectedType(type);
-    setSelectedCategoryId(getDefaultCategoryId(type));
+    setSelectedCategoryId(getSelectedCategoryId(type));
   }
 
   React.useEffect(() => {
     const type = transaction?.type ?? TransactionType.EXPENSE;
 
     setSelectedType(type);
-    setSelectedCategoryId(getDefaultCategoryId(type));
+    setSelectedCategoryId(getSelectedCategoryId(type));
     setAmount(transaction != null ? transaction.amount.toString() : "0");
-  }, [getDefaultCategoryId, transaction]);
+  }, [getSelectedCategoryId, transaction]);
 
   React.useEffect(() => {
     if (state?.success) {
