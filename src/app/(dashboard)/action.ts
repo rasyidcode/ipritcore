@@ -13,11 +13,6 @@ import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-export async function deleteByIdAction(id: number) {
-  await prisma.transaction.delete({ where: { id: id } });
-  revalidatePath("/");
-}
-
 const schema = z.object({
   id: z.string().min(1).optional(),
   name: z.string().min(1),
@@ -59,7 +54,7 @@ export async function createTransactionAction(
       );
     }
 
-    const session = await getServerSession(authOptions);
+    const userId = await getRequiredSessionUserId();
 
     await prisma.transaction.create({
       data: {
@@ -67,7 +62,7 @@ export async function createTransactionAction(
         type: validatedFields.data.type,
         date: validatedFields.data.date,
         amount: validatedFields.data.amount,
-        userId: session?.user.id as number,
+        userId,
       },
     });
 
@@ -102,8 +97,13 @@ export async function updateTransactionAction(
       );
     }
 
-    await prisma.transaction.update({
-      where: { id: parseInt(validatedFields.data.id as string) },
+    const userId = await getRequiredSessionUserId();
+
+    const { count } = await prisma.transaction.updateMany({
+      where: {
+        id: parseInt(validatedFields.data.id as string),
+        userId,
+      },
       data: {
         name: validatedFields.data.name,
         type: validatedFields.data.type,
@@ -111,6 +111,10 @@ export async function updateTransactionAction(
         amount: validatedFields.data.amount,
       },
     });
+
+    if (count === 0) {
+      throw new Error("Transaksi tidak ditemukan.");
+    }
 
     revalidatePath("/");
 
@@ -121,4 +125,37 @@ export async function updateTransactionAction(
   } catch (error) {
     return getActionError(error);
   }
+}
+
+export async function deleteByIdAction(id: number): Promise<ActionResult> {
+  try {
+    const userId = await getRequiredSessionUserId();
+
+    const { count } = await prisma.transaction.deleteMany({
+      where: { id, userId },
+    });
+
+    if (count === 0) {
+      throw new Error("Transaksi tidak ditemukan.");
+    }
+
+    revalidatePath("/");
+
+    return {
+      success: true,
+      message: "Transaksi berhasil dihapus.",
+    };
+  } catch (error) {
+    return getActionError(error);
+  }
+}
+
+async function getRequiredSessionUserId(): Promise<number> {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user.id) {
+    throw new Error("Unauthorized");
+  }
+
+  return session.user.id;
 }
