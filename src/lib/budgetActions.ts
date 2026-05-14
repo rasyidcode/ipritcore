@@ -37,8 +37,9 @@ type BudgetActionDeps = {
       };
       select: {
         type: true;
+        userId: true;
       };
-    }) => Promise<{ type: TransactionType } | null>;
+    }) => Promise<{ type: TransactionType; userId: number | null } | null>;
   };
   revalidatePath: (path: string) => void;
 };
@@ -87,10 +88,15 @@ export function createBudgetActions(deps: BudgetActionDeps) {
           },
           select: {
             type: true,
+            userId: true,
           },
         });
 
-        if (!category || category.type !== TransactionType.EXPENSE) {
+        if (
+          !category ||
+          category.userId !== userId ||
+          category.type !== TransactionType.EXPENSE
+        ) {
           throw new Error("Anggaran hanya bisa dibuat untuk kategori pengeluaran.");
         }
 

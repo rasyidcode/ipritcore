@@ -4,6 +4,16 @@ import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
 async function main() {
+  const demoUser = await prisma.user.upsert({
+    where: { email: "demo@example.com" },
+    update: {},
+    create: {
+      name: "Demo User",
+      email: "demo@example.com",
+      password: await bcrypt.hash("demo", 10),
+    },
+  });
+
   const categories = [
     { name: "Lain-lain", type: TransactionType.EXPENSE },
     { name: "Makanan", type: TransactionType.EXPENSE },
@@ -22,28 +32,20 @@ async function main() {
     categories.map((category) =>
       prisma.category.upsert({
         where: {
-          name_type: {
+          userId_name_type: {
+            userId: demoUser.id,
             name: category.name,
             type: category.type,
           },
         },
         update: {},
-        create: category,
+        create: {
+          ...category,
+          userId: demoUser.id,
+        },
       })
     )
   );
-
-  // [seed user]
-  await prisma.user.upsert({
-    where: { email: "demo@example.com" },
-    update: {},
-    create: {
-      name: "Demo User",
-      email: "demo@example.com",
-      password: await bcrypt.hash("demo", 10),
-    },
-  });
-  // end of [seed user]
 }
 
 main()

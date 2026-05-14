@@ -28,10 +28,12 @@ model Category {
   type         TransactionType
   createdAt    DateTime?     @default(now())
   updatedAt    DateTime?     @updatedAt
+  userId       Int?
+  user         User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
   transactions Transaction[]
   budgets      Budget[]
 
-  @@unique([name, type])
+  @@unique([userId, name, type])
 }
 
 model User {
@@ -42,6 +44,7 @@ model User {
   image        String?
   createdAt    DateTime?     @default(now())
   updatedAt    DateTime?     @updatedAt
+  categories   Category[]
   transactions Transaction[]
   budgets      Budget[]
 }

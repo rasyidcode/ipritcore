@@ -1,10 +1,23 @@
 import CategoryForm from "@/components/CategoryForm";
 import CategoryList from "@/components/CategoryList";
+import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { TransactionType } from "@prisma/client";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
 export default async function CategoriesPage() {
+  const session = await getServerSession(authOptions);
+  const userId = session?.user.id;
+
+  if (!userId) {
+    redirect("/login");
+  }
+
   const categories = await prisma.category.findMany({
+    where: {
+      userId,
+    },
     include: {
       _count: {
         select: {
