@@ -27,20 +27,19 @@ export default async function DashboardPage() {
       },
     ],
   });
-  const balance = transactions.reverse().reduce((acc, curr) => {
-    if (curr.type === TransactionType.INCOME) {
-      return acc + curr.amount;
-    }
+  const { balance, totalExpenses } = transactions.reduce(
+    (acc, curr) => {
+      if (curr.type === TransactionType.INCOME) {
+        acc.balance += curr.amount;
+      } else {
+        acc.balance -= curr.amount;
+        acc.totalExpenses += curr.amount;
+      }
 
-    return acc - curr.amount;
-  }, 0);
-  const totalExpenses = transactions
-    .reverse()
-    .reduce(
-      (acc, curr) =>
-        curr.type === TransactionType.EXPENSE ? acc + curr.amount : acc,
-      0
-    );
+      return acc;
+    },
+    { balance: 0, totalExpenses: 0 }
+  );
   return (
     <ModalFormTransactionProvider>
       <div className="flex-1 p-4 flex flex-col overflow-hidden md:max-h-[768px]">
