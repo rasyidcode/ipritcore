@@ -2,11 +2,12 @@ import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-import FormLogin from "@/components/FormLogin";
+import DemoLoginButton from "@/components/DemoLoginButton";
 import GoogleLogin from "@/components/GoogleLogin";
 
 export default async function LoginPage() {
   const session = await getServerSession(authOptions);
+  const isDevelopment = process.env.NODE_ENV === "development";
 
   if (session?.user) {
     redirect("/");
@@ -21,20 +22,14 @@ export default async function LoginPage() {
         <h1 className="uppercase max-w-max mx-auto text-xl">
           Iprit<strong>Core</strong>
         </h1>
-        <h2 className="mt-10 text-base font-bold tracking-tight text-foreground">
-          Sign in to your account
-        </h2>
       </div>
 
       <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
-        <FormLogin />
-
-        <div className="mt-5 flex items-center gap-4">
-          <hr className="flex-1 dark:border-white/[0.09]" />
-          <p className="text-sm">Or continue with</p>
-          <hr className="flex-1 dark:border-white/[0.09]" />
-        </div>
-
+        {isDevelopment && (
+          <div className="mt-5">
+            <DemoLoginButton />
+          </div>
+        )}
         <div className="mt-5">
           <GoogleLogin />
         </div>
