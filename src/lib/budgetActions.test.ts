@@ -25,11 +25,13 @@ function makeFormData(
 
 function createDeps({
   userId = 7,
+  categoryUserId = userId,
   categoryType = TransactionType.EXPENSE,
   categoryExists = true,
   rejectSession = false,
 }: {
   userId?: number;
+  categoryUserId?: number;
   categoryType?: TransactionType;
   categoryExists?: boolean;
   rejectSession?: boolean;
@@ -58,6 +60,7 @@ function createDeps({
         findUnique: async () =>
           categoryExists
             ? {
+                userId: categoryUserId,
                 type: categoryType,
               }
             : null,
@@ -117,6 +120,19 @@ describe("upsertBudgetAction", () => {
 
   it("rejects income categories", async () => {
     const deps = createDeps({ categoryType: TransactionType.INCOME });
+
+    const result = await deps.actions.upsertBudgetAction(
+      initialState,
+      makeFormData(),
+    );
+
+    assert.equal(result.success, false);
+    assert.equal(result.error, "Anggaran hanya bisa dibuat untuk kategori pengeluaran.");
+    assert.deepEqual(deps.upsertCalls, []);
+  });
+
+  it("rejects another user's category", async () => {
+    const deps = createDeps({ userId: 42, categoryUserId: 99 });
 
     const result = await deps.actions.upsertBudgetAction(
       initialState,

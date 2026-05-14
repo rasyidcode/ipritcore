@@ -27,10 +27,12 @@ function makeFormData(
 
 function createDeps({
   userId = 7,
+  categoryUserId = userId,
   updateCount = 1,
   deleteCount = 1,
 }: {
   userId?: number;
+  categoryUserId?: number;
   updateCount?: number;
   deleteCount?: number;
 } = {}) {
@@ -66,6 +68,7 @@ function createDeps({
         findUnique: async (args) => {
           categoryFindUniqueCalls.push(args);
           return {
+            userId: categoryUserId,
             type:
               args.where.id === 8
                 ? TransactionType.INCOME
@@ -123,6 +126,19 @@ describe("createTransactionAction", () => {
     assert.equal(result.error, "Kategori tidak sesuai dengan tipe transaksi.");
     assert.deepEqual(deps.createCalls, []);
     assert.deepEqual(deps.revalidatedPaths, []);
+  });
+
+  it("rejects another user's category", async () => {
+    const deps = createDeps({ userId: 42, categoryUserId: 99 });
+
+    const result = await deps.actions.createTransactionAction(
+      initialState,
+      makeFormData(),
+    );
+
+    assert.equal(result.success, false);
+    assert.equal(result.error, "Kategori tidak sesuai dengan tipe transaksi.");
+    assert.deepEqual(deps.createCalls, []);
   });
 
   it("returns validation errors for invalid input", async () => {

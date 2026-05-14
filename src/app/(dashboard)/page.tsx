@@ -18,6 +18,7 @@ import {
   getMonthStart,
   toMonthParam,
 } from "@/lib/monthUtils";
+import { redirect } from "next/navigation";
 
 type DashboardPageProps = {
   searchParams?: Promise<{
@@ -29,6 +30,12 @@ export default async function DashboardPage({
   searchParams,
 }: DashboardPageProps) {
   const session = await getServerSession(authOptions);
+  const userId = session?.user.id;
+
+  if (!userId) {
+    redirect("/login");
+  }
+
   const params = await searchParams;
   const selectedMonth = getMonthStart(params?.month);
   const nextMonth = addMonths(selectedMonth, 1);
@@ -37,12 +44,15 @@ export default async function DashboardPage({
     toMonthParam(selectedMonth) === toMonthParam(new Date());
 
   const categories = await prisma.category.findMany({
+    where: {
+      userId,
+    },
     orderBy: [{ type: "asc" }, { name: "asc" }],
   });
 
   const transactions = await prisma.transaction.findMany({
     where: {
-      userId: session?.user.id,
+      userId,
       date: {
         gte: selectedMonth,
         lt: nextMonth,

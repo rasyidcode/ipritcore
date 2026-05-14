@@ -20,9 +20,7 @@ export default function DashboardLayout({
           </ul>
         </div>
         <div className="rounded-lg border dark:border-white/[.145] p-2">
-          <ul className="flex items-center gap-2">
-            <DashboardNavLinks />
-          </ul>
+          <DashboardNavLinks />
         </div>
       </nav>
       {children}

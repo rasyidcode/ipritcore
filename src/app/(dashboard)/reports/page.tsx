@@ -14,6 +14,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 type ReportsPageProps = {
   searchParams?: Promise<{
@@ -30,6 +31,12 @@ type CategorySummary = {
 
 export default async function ReportsPage({ searchParams }: ReportsPageProps) {
   const session = await getServerSession(authOptions);
+  const userId = session?.user.id;
+
+  if (!userId) {
+    redirect("/login");
+  }
+
   const params = await searchParams;
   const selectedMonth = getMonthStart(params?.month);
   const nextMonth = addMonths(selectedMonth, 1);
@@ -39,7 +46,7 @@ export default async function ReportsPage({ searchParams }: ReportsPageProps) {
 
   const transactions = await prisma.transaction.findMany({
     where: {
-      userId: session?.user.id,
+      userId,
       date: {
         gte: selectedMonth,
         lt: nextMonth,

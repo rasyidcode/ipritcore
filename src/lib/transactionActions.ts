@@ -47,8 +47,9 @@ type TransactionActionDeps = {
       };
       select: {
         type: true;
+        userId: true;
       };
-    }) => Promise<{ type: TransactionType } | null>;
+    }) => Promise<{ type: TransactionType; userId: number | null } | null>;
   };
   revalidatePath: (path: string) => void;
 };
@@ -116,6 +117,7 @@ export function createTransactionActions(deps: TransactionActionDeps) {
           deps,
           validatedFields.data.categoryId,
           validatedFields.data.type,
+          userId,
         );
 
         await deps.transaction.create({
@@ -166,6 +168,7 @@ export function createTransactionActions(deps: TransactionActionDeps) {
           deps,
           validatedFields.data.categoryId,
           validatedFields.data.type,
+          userId,
         );
 
         const { count } = await deps.transaction.updateMany({
@@ -226,13 +229,14 @@ async function ensureCategoryMatchesType(
   deps: TransactionActionDeps,
   categoryId: number,
   transactionType: TransactionType,
+  userId: number,
 ) {
   const category = await deps.category.findUnique({
     where: { id: categoryId },
-    select: { type: true },
+    select: { type: true, userId: true },
   });
 
-  if (!category || category.type !== transactionType) {
+  if (!category || category.userId !== userId || category.type !== transactionType) {
     throw new Error("Kategori tidak sesuai dengan tipe transaksi.");
   }
 }

@@ -5,8 +5,10 @@ import {
   ActionResult,
   getActionError,
 } from "@/lib/action";
+import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { TransactionType } from "@prisma/client";
+import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
@@ -45,8 +47,13 @@ export async function createCategoryAction(
       );
     }
 
+    const userId = await getRequiredSessionUserId();
+
     await prisma.category.create({
-      data: validatedFields.data,
+      data: {
+        ...validatedFields.data,
+        userId,
+      },
     });
 
     revalidatePath("/categories");
@@ -79,15 +86,21 @@ export async function updateCategoryAction(
       );
     }
 
-    await prisma.category.update({
+    const userId = await getRequiredSessionUserId();
+    const { count } = await prisma.category.updateMany({
       where: {
         id: validatedFields.data.id,
+        userId,
       },
       data: {
         name: validatedFields.data.name,
         type: validatedFields.data.type,
       },
     });
+
+    if (count === 0) {
+      throw new Error("Kategori tidak ditemukan.");
+    }
 
     revalidatePath("/categories");
     revalidatePath("/");
@@ -103,9 +116,14 @@ export async function updateCategoryAction(
 
 export async function deleteCategoryAction(id: number): Promise<ActionResult> {
   try {
-    await prisma.category.delete({
-      where: { id },
+    const userId = await getRequiredSessionUserId();
+    const { count } = await prisma.category.deleteMany({
+      where: { id, userId },
     });
+
+    if (count === 0) {
+      throw new Error("Kategori tidak ditemukan.");
+    }
 
     revalidatePath("/categories");
     revalidatePath("/");
@@ -117,4 +135,14 @@ export async function deleteCategoryAction(id: number): Promise<ActionResult> {
   } catch (error) {
     return getActionError(error);
   }
+}
+
+async function getRequiredSessionUserId(): Promise<number> {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user.id) {
+    throw new Error("Unauthorized");
+  }
+
+  return session.user.id;
 }
