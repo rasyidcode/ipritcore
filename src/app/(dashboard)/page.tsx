@@ -36,6 +36,12 @@ export default async function DashboardPage({
   const isCurrentMonth =
     toMonthParam(selectedMonth) === toMonthParam(new Date());
 
+  const categories = await prisma.category.findMany({
+    orderBy: {
+      name: "asc",
+    },
+  });
+
   const transactions = await prisma.transaction.findMany({
     where: {
       userId: session?.user.id,
@@ -43,6 +49,9 @@ export default async function DashboardPage({
         gte: selectedMonth,
         lt: nextMonth,
       },
+    },
+    include: {
+      category: true,
     },
     orderBy: [
       {
@@ -132,7 +141,7 @@ export default async function DashboardPage({
           <TransactionList transactions={transactions} />
         </div>
       </div>
-      <ModalFormTransaction />
+      <ModalFormTransaction categories={categories} />
     </ModalFormTransactionProvider>
   );
 }

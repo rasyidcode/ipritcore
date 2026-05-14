@@ -13,6 +13,7 @@ function makeFormData(
     type: "expense",
     date: "2026-05-14",
     amount: "Rp 25.000",
+    categoryId: "3",
   },
 ) {
   const formData = new FormData();
@@ -83,6 +84,7 @@ describe("createTransactionAction", () => {
           type: TransactionType.EXPENSE,
           date: new Date("2026-05-14"),
           amount: 25000,
+          categoryId: 3,
           userId: 42,
         },
       },
@@ -100,6 +102,7 @@ describe("createTransactionAction", () => {
         type: "expense",
         date: "2026-05-14",
         amount: "Rp 25.000",
+        categoryId: "3",
       }),
     );
 
@@ -123,6 +126,7 @@ describe("updateTransactionAction", () => {
         type: "income",
         date: "2026-05-14",
         amount: "Rp 5.000.000",
+        categoryId: "8",
       }),
     );
 
@@ -138,6 +142,7 @@ describe("updateTransactionAction", () => {
           type: TransactionType.INCOME,
           date: new Date("2026-05-14"),
           amount: 5000000,
+          categoryId: 8,
         },
       },
     ]);
@@ -170,6 +175,7 @@ describe("updateTransactionAction", () => {
         type: "expense",
         date: "2026-05-14",
         amount: "Rp 25.000",
+        categoryId: "3",
       }),
     );
 

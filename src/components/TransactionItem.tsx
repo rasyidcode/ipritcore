@@ -15,15 +15,16 @@ import {
   PencilIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
-import { Transaction, TransactionType } from "@prisma/client";
+import { TransactionType } from "@prisma/client";
 import { useModalFormTransaction } from "@/components/ModalFormTransactionProvider";
 import { deleteByIdAction } from "@/app/(dashboard)/action";
 import React from "react";
+import { TransactionWithCategory } from "@/types/transaction";
 
 export default function TransactionItem({
   transaction,
 }: {
-  transaction: Transaction;
+  transaction: TransactionWithCategory;
 }) {
   const { handleClose, handleOpen, handleSetTransaction } =
     useModalFormTransaction();
@@ -55,11 +56,16 @@ export default function TransactionItem({
     <>
       <div className="p-2 flex items-center w-full">
         <div className="flex-1 flex flex-col">
-          <h4 className="font-light">{transaction.name}</h4>
+          <div className="flex items-center gap-1">
+            <h4 className="font-light">{transaction.name}</h4>
+            <p className="text-xs text-foreground/60 px-1 bg-white/15 rounded-md w-max">
+              {transaction.category.name}
+            </p>
+          </div>
           <p
             className={`${transaction.type === TransactionType.INCOME
-                ? "text-green-600"
-                : "text-red-600"
+              ? "text-green-600"
+              : "text-red-600"
               } font-semibold`}
           >
             {formatIdr(transaction.amount)}

@@ -16,6 +16,7 @@ type TransactionActionDeps = {
         type: TransactionType;
         date: Date;
         amount: number;
+        categoryId: number;
         userId: number;
       };
     }) => Promise<unknown>;
@@ -29,6 +30,7 @@ type TransactionActionDeps = {
         type: TransactionType;
         date: Date;
         amount: number;
+        categoryId: number;
       };
     }) => Promise<{ count: number }>;
     deleteMany: (args: {
@@ -60,6 +62,11 @@ const transactionSchema = z.object({
     .string()
     .min(1)
     .transform((val) => new Date(val)),
+  categoryId: z
+    .string()
+    .min(1)
+    .transform((val) => Number(val))
+    .pipe(z.number().int().positive()),
 });
 
 const createTransactionSchema = transactionSchema;
@@ -84,6 +91,7 @@ export function createTransactionActions(deps: TransactionActionDeps) {
           type: formData.get("type"),
           date: formData.get("date"),
           amount: formData.get("amount"),
+          categoryId: formData.get("categoryId"),
         });
 
         if (!validatedFields.success) {
@@ -101,6 +109,7 @@ export function createTransactionActions(deps: TransactionActionDeps) {
             type: validatedFields.data.type,
             date: validatedFields.data.date,
             amount: validatedFields.data.amount,
+            categoryId: validatedFields.data.categoryId,
             userId,
           },
         });
@@ -127,6 +136,7 @@ export function createTransactionActions(deps: TransactionActionDeps) {
           type: formData.get("type"),
           date: formData.get("date"),
           amount: formData.get("amount"),
+          categoryId: formData.get("categoryId"),
         });
 
         if (!validatedFields.success) {
@@ -148,6 +158,7 @@ export function createTransactionActions(deps: TransactionActionDeps) {
             type: validatedFields.data.type,
             date: validatedFields.data.date,
             amount: validatedFields.data.amount,
+            categoryId: validatedFields.data.categoryId,
           },
         });
 

@@ -1,11 +1,11 @@
-import { Transaction } from "@prisma/client";
 import TransactionItem from "@/components/TransactionItem";
 import TransactionGroupItem from "@/components/TransactionGroupItem";
+import { TransactionWithCategory } from "@/types/transaction";
 
 export default function TransactionList({
   transactions,
 }: {
-  transactions: Transaction[];
+  transactions: TransactionWithCategory[];
 }) {
   const rows: React.ReactNode[] = [];
   let lastDate: Date | null = null;

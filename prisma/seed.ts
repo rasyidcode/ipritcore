@@ -1,9 +1,30 @@
-import { PrismaClient, TransactionType } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
 async function main() {
+  const categories = [
+    "Lain-lain",
+    "Makanan",
+    "Transportasi",
+    "Belanja",
+    "Tagihan",
+    "Hiburan",
+    "Kesehatan",
+    "Gaji",
+  ];
+
+  await Promise.all(
+    categories.map((name) =>
+      prisma.category.upsert({
+        where: { name },
+        update: {},
+        create: { name },
+      })
+    )
+  );
+
   // [seed user]
   await prisma.user.upsert({
     where: { email: "demo@example.com" },

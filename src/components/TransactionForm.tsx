@@ -5,7 +5,8 @@ import { formatIdr } from "@/lib/stringUtils";
 import { CloseButton } from "@headlessui/react";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import { ActionResult } from "@/lib/action";
-import { Transaction, TransactionType } from "@prisma/client";
+import { Category, TransactionType } from "@prisma/client";
+import { TransactionWithCategory } from "@/types/transaction";
 
 const initialState: ActionResult = {
   success: null,
@@ -15,10 +16,12 @@ const initialState: ActionResult = {
 export default function TransactionForm({
   closeModal,
   transaction,
+  categories,
   actionHandler,
 }: {
   closeModal: () => void;
-  transaction: Transaction | null;
+  transaction: TransactionWithCategory | null;
+  categories: Category[];
   actionHandler: (
     prevState: ActionResult,
     formData: FormData
@@ -31,6 +34,11 @@ export default function TransactionForm({
     actionHandler,
     initialState
   );
+  const defaultCategoryId =
+    transaction?.categoryId ??
+    categories.find((category) => category.name === "Lain-lain")?.id ??
+    categories[0]?.id ??
+    "";
 
   function handleClose(_e: React.MouseEvent<HTMLButtonElement>): void {
     closeModal();
@@ -135,6 +143,32 @@ export default function TransactionForm({
           />
           {getFieldError("date") && (
             <p className="text-xs text-red-500 mt-1">{getFieldError("date")}</p>
+          )}
+        </div>
+      </div>
+
+      <div className="flex flex-row gap-3">
+        <label htmlFor="categoryId" className="basis-1/4 text-sm py-1">
+          Kategori
+        </label>
+        <div className="flex-1">
+          <select
+            id="categoryId"
+            name="categoryId"
+            className="w-full border dark:border-black/[.45] text-sm px-2 py-1 dark:text-background rounded-md"
+            defaultValue={defaultCategoryId}
+            required
+          >
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+          {getFieldError("categoryId") && (
+            <p className="text-xs text-red-500 mt-1">
+              {getFieldError("categoryId")}
+            </p>
           )}
         </div>
       </div>

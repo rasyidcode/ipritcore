@@ -1,14 +1,14 @@
 "use client";
 
 import React from "react";
-import { Transaction } from "@prisma/client";
+import { TransactionWithCategory } from "@/types/transaction";
 
 export type ModalFormTransactionType = {
   isOpen: boolean;
   handleClose: () => void;
   handleOpen: () => void;
-  transaction: Transaction | null;
-  handleSetTransaction: (t: Transaction) => void;
+  transaction: TransactionWithCategory | null;
+  handleSetTransaction: (t: TransactionWithCategory) => void;
 };
 
 const ModalFormTransactionContext =
@@ -26,9 +26,8 @@ export function ModalFormTransactionProvider({
   children: React.ReactNode;
 }) {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [transaction, setTransaction] = React.useState<Transaction | null>(
-    null
-  );
+  const [transaction, setTransaction] =
+    React.useState<TransactionWithCategory | null>(null);
 
   const handleClose = React.useCallback(() => {
     setIsOpen(false);
@@ -39,9 +38,12 @@ export function ModalFormTransactionProvider({
     setIsOpen(true);
   }, []);
 
-  const handleSetTransaction = React.useCallback((t: Transaction) => {
-    setTransaction(t);
-  }, []);
+  const handleSetTransaction = React.useCallback(
+    (t: TransactionWithCategory) => {
+      setTransaction(t);
+    },
+    []
+  );
 
   const value = React.useMemo(
     () => ({

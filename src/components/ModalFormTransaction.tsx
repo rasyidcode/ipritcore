@@ -4,8 +4,13 @@ import TransactionForm from "@/components/TransactionForm";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { useModalFormTransaction } from "@/components/ModalFormTransactionProvider";
 import { createTransactionAction, updateTransactionAction } from "@/app/(dashboard)/action";
+import { Category } from "@prisma/client";
 
-export default function ModalFormTransaction() {
+export default function ModalFormTransaction({
+  categories,
+}: {
+  categories: Category[];
+}) {
   const { isOpen, handleClose, transaction } = useModalFormTransaction();
 
   return (
@@ -22,6 +27,7 @@ export default function ModalFormTransaction() {
           <TransactionForm
             closeModal={handleClose}
             transaction={transaction}
+            categories={categories}
             actionHandler={
               transaction !== null
                 ? updateTransactionAction
