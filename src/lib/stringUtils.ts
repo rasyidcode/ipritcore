@@ -1,27 +1,18 @@
-export const numberToIDRFormat = (num: number): string => {
-  return `Rp. ${num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
-};
+const idrFormatter = new Intl.NumberFormat("id-ID", {
+  style: "currency",
+  currency: "IDR",
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0,
+});
 
-export function formatIdr(numStr: string): string {
-  // Remove non-numeric characters excepts dots (for decimals)
-  const number = numStr.replace(/[^0-9,]/g, "");
+export function formatIdr(value: number | string): string {
+  const numericValue = typeof value === "number" ? value : parseIdr(value);
 
-  // Convert sanitized string to a number
-  const numericValue = Number(number.replace(/,/g, "")) || 0;
-
-  // Format as Indonesian Rupiah (IDR)
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0, // Change to 2 if you want decimals
-  }).format(numericValue);
+  return idrFormatter.format(numericValue);
 }
 
 export function parseIdr(idrStr: string): number {
-  // Remove currency symbol, non-numeric characters, and spaces
-  const cleanedStr = idrStr.replace(/[^\d,]/g, "").replace(/,/g, "");
-
-  // Convert to number
+  const cleanedStr = idrStr.replace(/\D/g, "");
   return Number(cleanedStr) || 0;
 }
 

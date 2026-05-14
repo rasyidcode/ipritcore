@@ -1,6 +1,6 @@
 "use client";
 
-import { numberToIDRFormat } from "@/lib/stringUtils";
+import { formatIdr } from "@/lib/stringUtils";
 import {
   Dialog,
   DialogPanel,
@@ -62,7 +62,7 @@ export default function TransactionItem({
                 : "text-red-600"
               } font-semibold`}
           >
-            {numberToIDRFormat(transaction.amount)}
+            {formatIdr(transaction.amount)}
           </p>
         </div>
         <Menu>

@@ -1,5 +1,5 @@
 import { authOptions } from "@/lib/auth";
-import { numberToIDRFormat } from "@/lib/stringUtils";
+import { formatIdr } from "@/lib/stringUtils";
 import prisma from "@/lib/prisma";
 import { TransactionType } from "@prisma/client";
 import { ModalFormTransactionProvider } from "@/components/ModalFormTransactionProvider";
@@ -50,7 +50,7 @@ export default async function DashboardPage() {
               Saldo
             </p>
             <h3 className="text-lg font-medium text-green-600">
-              {numberToIDRFormat(balance)}
+              {formatIdr(balance)}
             </h3>
           </div>
           <div className="border dark:border-white/[.09] flex-1 p-2 rounded-lg">
@@ -58,7 +58,7 @@ export default async function DashboardPage() {
               Pengeluaran
             </p>
             <h3 className="text-lg font-medium text-red-600">
-              {numberToIDRFormat(totalExpenses)}
+              {formatIdr(totalExpenses)}
             </h3>
           </div>
         </div>
