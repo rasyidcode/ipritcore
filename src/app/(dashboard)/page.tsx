@@ -83,7 +83,7 @@ export default async function DashboardPage({
               href="/"
               className="text-sm font-semibold underline underline-offset-4"
             >
-              Bulan ini
+              Kembali
             </Link>
           )}
         </div>
