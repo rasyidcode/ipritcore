@@ -1,9 +1,9 @@
 "use client";
 
+import React from "react";
 import { formatIdr } from "@/lib/stringUtils";
 import { CloseButton } from "@headlessui/react";
 import { XCircleIcon } from "@heroicons/react/24/outline";
-import React from "react";
 import { ActionResult } from "@/lib/action";
 import { Transaction, TransactionType } from "@prisma/client";
 
@@ -40,32 +40,44 @@ export default function TransactionForm({
     setAmount(formatIdr(e.target.value));
   }
 
-  // ✅ Close modal only when state.success changes
+  function getFieldError(field: string): string | null {
+    return state?.errors?.[field]?.[0] ?? null;
+  }
+
   React.useEffect(() => {
-    // Close modal after successful form submission
     if (state?.success) {
       closeModal();
     }
-  }, [state?.success]); // Only runs when `state.success` changes
+  }, [closeModal, state?.success]);
 
   return (
     <form action={formAction} className="flex flex-col gap-3 mt-4">
       {transaction !== null && (
         <input type="hidden" name="id" value={transaction.id} />
       )}
+      {state?.success === false && state.error && (
+        <p className="rounded-md border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-600">
+          {state.error}
+        </p>
+      )}
       <div className="flex flex-row gap-3">
         <label htmlFor="name" className="basis-1/4 text-sm py-1">
           Nama
         </label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          className="flex-1 border dark:border-black/[.45] text-sm px-2 rounded-md dark:text-background"
-          placeholder="Contoh: Beli sayur, isi bensin..."
-          defaultValue={transaction != null ? transaction.name : ""}
-          required
-        />
+        <div className="flex-1">
+          <input
+            type="text"
+            id="name"
+            name="name"
+            className="w-full border dark:border-black/[.45] text-sm px-2 rounded-md dark:text-background"
+            placeholder="Contoh: Beli sayur, isi bensin..."
+            defaultValue={transaction != null ? transaction.name : ""}
+            required
+          />
+          {getFieldError("name") && (
+            <p className="text-xs text-red-500 mt-1">{getFieldError("name")}</p>
+          )}
+        </div>
       </div>
 
       <div className="flex flex-row gap-3">
@@ -77,7 +89,7 @@ export default function TransactionForm({
             <input
               type="radio"
               name="type"
-              id="type"
+              id="type-expense"
               value="expense"
               defaultChecked={
                 transaction !== null
@@ -92,12 +104,15 @@ export default function TransactionForm({
             <input
               type="radio"
               name="type"
-              id="type"
+              id="type-income"
               value="income"
               defaultChecked={transaction?.type === TransactionType.INCOME}
             />
             <span className="text-sm py-1">Pemasukkan</span>
           </div>
+          {getFieldError("type") && (
+            <p className="text-xs text-red-500 mt-1">{getFieldError("type")}</p>
+          )}
         </div>
       </div>
 
@@ -105,18 +120,23 @@ export default function TransactionForm({
         <label htmlFor="date" className="basis-1/4 text-sm py-1">
           Tanggal
         </label>
-        <input
-          type="date"
-          id="date"
-          name="date"
-          className="flex-1 border dark:border-black/[.45] text-sm px-2 dark:text-background rounded-md"
-          defaultValue={
-            transaction != null
-              ? transaction.date.toISOString().split("T")[0]
-              : new Date().toISOString().split("T")[0]
-          }
-          required
-        />
+        <div className="flex-1">
+          <input
+            type="date"
+            id="date"
+            name="date"
+            className="w-full border dark:border-black/[.45] text-sm px-2 dark:text-background rounded-md"
+            defaultValue={
+              transaction != null
+                ? transaction.date.toISOString().split("T")[0]
+                : new Date().toISOString().split("T")[0]
+            }
+            required
+          />
+          {getFieldError("date") && (
+            <p className="text-xs text-red-500 mt-1">{getFieldError("date")}</p>
+          )}
+        </div>
       </div>
 
       <div className="flex flex-row gap-3 items-start">
@@ -133,8 +153,10 @@ export default function TransactionForm({
             onChange={handleAmountOnChange}
             required
           />
-          {state?.errors !== undefined && state?.errors.amount && (
-            <p className="text-xs text-red-500 mt-1">{state?.errors.amount}</p>
+          {getFieldError("amount") && (
+            <p className="text-xs text-red-500 mt-1">
+              {getFieldError("amount")}
+            </p>
           )}
         </div>
       </div>

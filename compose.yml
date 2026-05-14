@@ -1,19 +1,19 @@
 services:
-  node:
-    image: node:22-alpine
-    user: node
-    volumes:
-      - .:/app
-    ports:
-      - 3000:3000
-    working_dir: /app
-    command: sh -c "npm install && npm run dev"
+  # node:
+  #   image: node:22-alpine
+  #   user: node
+  #   volumes:
+  #     - .:/app
+  #   ports:
+  #     - 3000:3000
+  #   working_dir: /app
+  #   command: sh -c "npm install && npm run dev"
   db:
-    image: postgres:latest
+    image: postgres:17
     environment:
       POSTGRES_PASSWORD: secret
     volumes:
-      - ipritcore-data:/var/lib/mysql
+      - ipritcore-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
   adminer:

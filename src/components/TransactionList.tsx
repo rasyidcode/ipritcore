@@ -1,6 +1,6 @@
-import TransactionItem from "./TransactionItem";
-import TransactionGroupItem from "./TransactionGroupItem";
 import { Transaction } from "@prisma/client";
+import TransactionItem from "@/components/TransactionItem";
+import TransactionGroupItem from "@/components/TransactionGroupItem";
 
 export default function TransactionList({
   transactions,
