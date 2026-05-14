@@ -57,11 +57,10 @@ export default function TransactionItem({
         <div className="flex-1 flex flex-col">
           <h4 className="font-light">{transaction.name}</h4>
           <p
-            className={`${
-              transaction.type === TransactionType.INCOME
+            className={`${transaction.type === TransactionType.INCOME
                 ? "text-green-600"
                 : "text-red-600"
-            } font-semibold`}
+              } font-semibold`}
           >
             {numberToIDRFormat(transaction.amount)}
           </p>
@@ -103,7 +102,7 @@ export default function TransactionItem({
                 className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 text-red-600 data-[focus]:bg-black/10
               dark:data-[focus]:bg-white/10"
               >
-                <TrashIcon className="size-4 fill-white/30" />
+                <TrashIcon className="size-4 fill-red-600" />
                 Delete
               </button>
             </MenuItem>
