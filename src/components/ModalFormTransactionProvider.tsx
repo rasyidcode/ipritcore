@@ -1,7 +1,7 @@
 "use client";
 
-import { Transaction } from "@prisma/client";
 import React from "react";
+import { Transaction } from "@prisma/client";
 
 export type ModalFormTransactionType = {
   isOpen: boolean;

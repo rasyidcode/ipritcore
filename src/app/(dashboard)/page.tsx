@@ -1,12 +1,12 @@
+import { authOptions } from "@/lib/auth";
 import { numberToIDRFormat } from "@/lib/stringUtils";
-import TransactionList from "./_components/TransactionList";
-import NewTransactionButton from "./_components/NewTransactionButton";
 import prisma from "@/lib/prisma";
 import { TransactionType } from "@prisma/client";
-import { ModalFormTransactionProvider } from "@/app/(dashboard)/_components/ModalFormTransactionProvider";
-import ModalFormTransaction from "@/app/(dashboard)/_components/ModalFormTransaction";
+import { ModalFormTransactionProvider } from "@/components/ModalFormTransactionProvider";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import TransactionList from "@/components/TransactionList";
+import NewTransactionButton from "@/components/NewTransactionButton";
+import ModalFormTransaction from "@/components/ModalFormTransaction";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -38,7 +38,7 @@ export default async function DashboardPage() {
 
       return acc;
     },
-    { balance: 0, totalExpenses: 0 }
+    { balance: 0, totalExpenses: 0 },
   );
   return (
     <ModalFormTransactionProvider>

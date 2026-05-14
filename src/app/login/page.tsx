@@ -2,8 +2,8 @@ import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-import FormLogin from "./_components/FormLogin";
-import GoogleLogin from "./_components/GoogleLogin";
+import FormLogin from "@/components/FormLogin";
+import GoogleLogin from "@/components/GoogleLogin";
 
 export default async function LoginPage() {
   const session = await getServerSession(authOptions);

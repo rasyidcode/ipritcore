@@ -1,10 +1,9 @@
 "use client";
 
-import TransactionForm from "@/app/(dashboard)/_components/TransactionForm";
+import TransactionForm from "@/components/TransactionForm";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
-import React from "react";
-import { useModalFormTransaction } from "./ModalFormTransactionProvider";
-import { createTransactionAction, updateTransactionAction } from "../action";
+import { useModalFormTransaction } from "@/components/ModalFormTransactionProvider";
+import { createTransactionAction, updateTransactionAction } from "@/app/(dashboard)/action";
 
 export default function ModalFormTransaction() {
   const { isOpen, handleClose, transaction } = useModalFormTransaction();

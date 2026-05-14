@@ -1,9 +1,9 @@
 "use client";
 
+import React from "react";
 import { formatIdr } from "@/lib/stringUtils";
 import { CloseButton } from "@headlessui/react";
 import { XCircleIcon } from "@heroicons/react/24/outline";
-import React from "react";
 import { ActionResult } from "@/lib/action";
 import { Transaction, TransactionType } from "@prisma/client";
 
