@@ -16,6 +16,7 @@ type TransactionActionDeps = {
         type: TransactionType;
         date: Date;
         amount: number;
+        categoryId: number;
         userId: number;
       };
     }) => Promise<unknown>;
@@ -29,6 +30,7 @@ type TransactionActionDeps = {
         type: TransactionType;
         date: Date;
         amount: number;
+        categoryId: number;
       };
     }) => Promise<{ count: number }>;
     deleteMany: (args: {
@@ -37,6 +39,16 @@ type TransactionActionDeps = {
         userId: number;
       };
     }) => Promise<{ count: number }>;
+  };
+  category: {
+    findUnique: (args: {
+      where: {
+        id: number;
+      };
+      select: {
+        type: true;
+      };
+    }) => Promise<{ type: TransactionType } | null>;
   };
   revalidatePath: (path: string) => void;
 };
@@ -60,6 +72,11 @@ const transactionSchema = z.object({
     .string()
     .min(1)
     .transform((val) => new Date(val)),
+  categoryId: z
+    .string()
+    .min(1)
+    .transform((val) => Number(val))
+    .pipe(z.number().int().positive()),
 });
 
 const createTransactionSchema = transactionSchema;
@@ -84,6 +101,7 @@ export function createTransactionActions(deps: TransactionActionDeps) {
           type: formData.get("type"),
           date: formData.get("date"),
           amount: formData.get("amount"),
+          categoryId: formData.get("categoryId"),
         });
 
         if (!validatedFields.success) {
@@ -94,6 +112,11 @@ export function createTransactionActions(deps: TransactionActionDeps) {
         }
 
         const userId = await deps.getSessionUserId();
+        await ensureCategoryMatchesType(
+          deps,
+          validatedFields.data.categoryId,
+          validatedFields.data.type,
+        );
 
         await deps.transaction.create({
           data: {
@@ -101,6 +124,7 @@ export function createTransactionActions(deps: TransactionActionDeps) {
             type: validatedFields.data.type,
             date: validatedFields.data.date,
             amount: validatedFields.data.amount,
+            categoryId: validatedFields.data.categoryId,
             userId,
           },
         });
@@ -127,6 +151,7 @@ export function createTransactionActions(deps: TransactionActionDeps) {
           type: formData.get("type"),
           date: formData.get("date"),
           amount: formData.get("amount"),
+          categoryId: formData.get("categoryId"),
         });
 
         if (!validatedFields.success) {
@@ -137,6 +162,11 @@ export function createTransactionActions(deps: TransactionActionDeps) {
         }
 
         const userId = await deps.getSessionUserId();
+        await ensureCategoryMatchesType(
+          deps,
+          validatedFields.data.categoryId,
+          validatedFields.data.type,
+        );
 
         const { count } = await deps.transaction.updateMany({
           where: {
@@ -148,6 +178,7 @@ export function createTransactionActions(deps: TransactionActionDeps) {
             type: validatedFields.data.type,
             date: validatedFields.data.date,
             amount: validatedFields.data.amount,
+            categoryId: validatedFields.data.categoryId,
           },
         });
 
@@ -189,4 +220,19 @@ export function createTransactionActions(deps: TransactionActionDeps) {
       }
     },
   };
+}
+
+async function ensureCategoryMatchesType(
+  deps: TransactionActionDeps,
+  categoryId: number,
+  transactionType: TransactionType,
+) {
+  const category = await deps.category.findUnique({
+    where: { id: categoryId },
+    select: { type: true },
+  });
+
+  if (!category || category.type !== transactionType) {
+    throw new Error("Kategori tidak sesuai dengan tipe transaksi.");
+  }
 }

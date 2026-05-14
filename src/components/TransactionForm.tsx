@@ -5,7 +5,8 @@ import { formatIdr } from "@/lib/stringUtils";
 import { CloseButton } from "@headlessui/react";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import { ActionResult } from "@/lib/action";
-import { Transaction, TransactionType } from "@prisma/client";
+import { Category, TransactionType } from "@prisma/client";
+import { TransactionWithCategory } from "@/types/transaction";
 
 const initialState: ActionResult = {
   success: null,
@@ -15,10 +16,12 @@ const initialState: ActionResult = {
 export default function TransactionForm({
   closeModal,
   transaction,
+  categories,
   actionHandler,
 }: {
   closeModal: () => void;
-  transaction: Transaction | null;
+  transaction: TransactionWithCategory | null;
+  categories: Category[];
   actionHandler: (
     prevState: ActionResult,
     formData: FormData
@@ -27,9 +30,29 @@ export default function TransactionForm({
   const [amount, setAmount] = React.useState(
     transaction != null ? transaction.amount.toString() : "0"
   );
+  const [selectedType, setSelectedType] = React.useState<TransactionType>(
+    transaction?.type ?? TransactionType.EXPENSE
+  );
+  const [selectedCategoryId, setSelectedCategoryId] = React.useState<
+    number | ""
+  >("");
   const [state, formAction, pending] = React.useActionState(
     actionHandler,
     initialState
+  );
+  const filteredCategories = categories.filter(
+    (category) => category.type === selectedType
+  );
+
+  const getSelectedCategoryId = React.useCallback(
+    (type: TransactionType): number | "" => {
+      if (transaction?.type === type) {
+        return transaction.categoryId;
+      }
+
+      return categories.find((category) => category.type === type)?.id ?? "";
+    },
+    [categories, transaction]
   );
 
   function handleClose(_e: React.MouseEvent<HTMLButtonElement>): void {
@@ -43,6 +66,19 @@ export default function TransactionForm({
   function getFieldError(field: string): string | null {
     return state?.errors?.[field]?.[0] ?? null;
   }
+
+  function handleTypeChange(type: TransactionType): void {
+    setSelectedType(type);
+    setSelectedCategoryId(getSelectedCategoryId(type));
+  }
+
+  React.useEffect(() => {
+    const type = transaction?.type ?? TransactionType.EXPENSE;
+
+    setSelectedType(type);
+    setSelectedCategoryId(getSelectedCategoryId(type));
+    setAmount(transaction != null ? transaction.amount.toString() : "0");
+  }, [getSelectedCategoryId, transaction]);
 
   React.useEffect(() => {
     if (state?.success) {
@@ -91,11 +127,8 @@ export default function TransactionForm({
               name="type"
               id="type-expense"
               value="expense"
-              defaultChecked={
-                transaction !== null
-                  ? transaction?.type === TransactionType.EXPENSE
-                  : true
-              }
+              checked={selectedType === TransactionType.EXPENSE}
+              onChange={() => handleTypeChange(TransactionType.EXPENSE)}
               required
             />
             <span className="text-sm py-1">Pengeluaran</span>
@@ -106,7 +139,8 @@ export default function TransactionForm({
               name="type"
               id="type-income"
               value="income"
-              defaultChecked={transaction?.type === TransactionType.INCOME}
+              checked={selectedType === TransactionType.INCOME}
+              onChange={() => handleTypeChange(TransactionType.INCOME)}
             />
             <span className="text-sm py-1">Pemasukkan</span>
           </div>
@@ -135,6 +169,33 @@ export default function TransactionForm({
           />
           {getFieldError("date") && (
             <p className="text-xs text-red-500 mt-1">{getFieldError("date")}</p>
+          )}
+        </div>
+      </div>
+
+      <div className="flex flex-row gap-3">
+        <label htmlFor="categoryId" className="basis-1/4 text-sm py-1">
+          Kategori
+        </label>
+        <div className="flex-1">
+          <select
+            id="categoryId"
+            name="categoryId"
+            className="w-full border dark:border-black/[.45] text-sm px-2 py-1 dark:text-background rounded-md"
+            value={selectedCategoryId}
+            onChange={(e) => setSelectedCategoryId(Number(e.target.value))}
+            required
+          >
+            {filteredCategories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+          {getFieldError("categoryId") && (
+            <p className="text-xs text-red-500 mt-1">
+              {getFieldError("categoryId")}
+            </p>
           )}
         </div>
       </div>
