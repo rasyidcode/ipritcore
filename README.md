@@ -10,3 +10,10 @@ Simple expense tracker.
 - Next Auth (Authentication)
 - Vercel (Deployment)
 - Docker (Dev Environment)
+
+## My Team
+
+- Codex
+- Copilot
+- Gemini
+- Ollama
