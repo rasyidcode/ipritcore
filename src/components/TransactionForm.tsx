@@ -40,13 +40,11 @@ export default function TransactionForm({
     setAmount(formatIdr(e.target.value));
   }
 
-  // ✅ Close modal only when state.success changes
   React.useEffect(() => {
-    // Close modal after successful form submission
     if (state?.success) {
       closeModal();
     }
-  }, [state?.success]); // Only runs when `state.success` changes
+  }, [closeModal, state?.success]);
 
   return (
     <form action={formAction} className="flex flex-col gap-3 mt-4">

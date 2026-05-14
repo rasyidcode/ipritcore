@@ -30,28 +30,32 @@ export function ModalFormTransactionProvider({
     null
   );
 
-  function handleClose() {
+  const handleClose = React.useCallback(() => {
     setIsOpen(false);
-  }
+    setTransaction(null);
+  }, []);
 
-  function handleOpen() {
+  const handleOpen = React.useCallback(() => {
     setIsOpen(true);
-  }
+  }, []);
 
-  function handleSetTransaction(t: Transaction) {
+  const handleSetTransaction = React.useCallback((t: Transaction) => {
     setTransaction(t);
-  }
+  }, []);
+
+  const value = React.useMemo(
+    () => ({
+      isOpen,
+      handleClose,
+      handleOpen,
+      transaction,
+      handleSetTransaction,
+    }),
+    [handleClose, handleOpen, handleSetTransaction, isOpen, transaction]
+  );
 
   return (
-    <ModalFormTransactionContext.Provider
-      value={{
-        isOpen,
-        handleClose,
-        handleOpen,
-        transaction,
-        handleSetTransaction,
-      }}
-    >
+    <ModalFormTransactionContext.Provider value={value}>
       {children}
     </ModalFormTransactionContext.Provider>
   );
