@@ -40,6 +40,16 @@ type TransactionActionDeps = {
       };
     }) => Promise<{ count: number }>;
   };
+  category: {
+    findUnique: (args: {
+      where: {
+        id: number;
+      };
+      select: {
+        type: true;
+      };
+    }) => Promise<{ type: TransactionType } | null>;
+  };
   revalidatePath: (path: string) => void;
 };
 
@@ -102,6 +112,11 @@ export function createTransactionActions(deps: TransactionActionDeps) {
         }
 
         const userId = await deps.getSessionUserId();
+        await ensureCategoryMatchesType(
+          deps,
+          validatedFields.data.categoryId,
+          validatedFields.data.type,
+        );
 
         await deps.transaction.create({
           data: {
@@ -147,6 +162,11 @@ export function createTransactionActions(deps: TransactionActionDeps) {
         }
 
         const userId = await deps.getSessionUserId();
+        await ensureCategoryMatchesType(
+          deps,
+          validatedFields.data.categoryId,
+          validatedFields.data.type,
+        );
 
         const { count } = await deps.transaction.updateMany({
           where: {
@@ -200,4 +220,19 @@ export function createTransactionActions(deps: TransactionActionDeps) {
       }
     },
   };
+}
+
+async function ensureCategoryMatchesType(
+  deps: TransactionActionDeps,
+  categoryId: number,
+  transactionType: TransactionType,
+) {
+  const category = await deps.category.findUnique({
+    where: { id: categoryId },
+    select: { type: true },
+  });
+
+  if (!category || category.type !== transactionType) {
+    throw new Error("Kategori tidak sesuai dengan tipe transaksi.");
+  }
 }

@@ -30,15 +30,37 @@ export default function TransactionForm({
   const [amount, setAmount] = React.useState(
     transaction != null ? transaction.amount.toString() : "0"
   );
+  const [selectedType, setSelectedType] = React.useState<TransactionType>(
+    transaction?.type ?? TransactionType.EXPENSE
+  );
+  const [selectedCategoryId, setSelectedCategoryId] = React.useState<
+    number | ""
+  >("");
   const [state, formAction, pending] = React.useActionState(
     actionHandler,
     initialState
   );
-  const defaultCategoryId =
-    transaction?.categoryId ??
-    categories.find((category) => category.name === "Lain-lain")?.id ??
-    categories[0]?.id ??
-    "";
+  const filteredCategories = categories.filter(
+    (category) => category.type === selectedType
+  );
+
+  const getDefaultCategoryId = React.useCallback(
+    (type: TransactionType): number | "" => {
+      if (transaction?.type === type) {
+        return transaction.categoryId;
+      }
+
+      return (
+        categories.find(
+          (category) =>
+            category.type === type && category.name === "Lain-lain"
+        )?.id ??
+        categories.find((category) => category.type === type)?.id ??
+        ""
+      );
+    },
+    [categories, transaction]
+  );
 
   function handleClose(_e: React.MouseEvent<HTMLButtonElement>): void {
     closeModal();
@@ -51,6 +73,19 @@ export default function TransactionForm({
   function getFieldError(field: string): string | null {
     return state?.errors?.[field]?.[0] ?? null;
   }
+
+  function handleTypeChange(type: TransactionType): void {
+    setSelectedType(type);
+    setSelectedCategoryId(getDefaultCategoryId(type));
+  }
+
+  React.useEffect(() => {
+    const type = transaction?.type ?? TransactionType.EXPENSE;
+
+    setSelectedType(type);
+    setSelectedCategoryId(getDefaultCategoryId(type));
+    setAmount(transaction != null ? transaction.amount.toString() : "0");
+  }, [getDefaultCategoryId, transaction]);
 
   React.useEffect(() => {
     if (state?.success) {
@@ -99,11 +134,8 @@ export default function TransactionForm({
               name="type"
               id="type-expense"
               value="expense"
-              defaultChecked={
-                transaction !== null
-                  ? transaction?.type === TransactionType.EXPENSE
-                  : true
-              }
+              checked={selectedType === TransactionType.EXPENSE}
+              onChange={() => handleTypeChange(TransactionType.EXPENSE)}
               required
             />
             <span className="text-sm py-1">Pengeluaran</span>
@@ -114,7 +146,8 @@ export default function TransactionForm({
               name="type"
               id="type-income"
               value="income"
-              defaultChecked={transaction?.type === TransactionType.INCOME}
+              checked={selectedType === TransactionType.INCOME}
+              onChange={() => handleTypeChange(TransactionType.INCOME)}
             />
             <span className="text-sm py-1">Pemasukkan</span>
           </div>
@@ -156,10 +189,11 @@ export default function TransactionForm({
             id="categoryId"
             name="categoryId"
             className="w-full border dark:border-black/[.45] text-sm px-2 py-1 dark:text-background rounded-md"
-            defaultValue={defaultCategoryId}
+            value={selectedCategoryId}
+            onChange={(e) => setSelectedCategoryId(Number(e.target.value))}
             required
           >
-            {categories.map((category) => (
+            {filteredCategories.map((category) => (
               <option key={category.id} value={category.id}>
                 {category.name}
               </option>

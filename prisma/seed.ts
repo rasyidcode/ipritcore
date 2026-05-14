@@ -1,26 +1,34 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, TransactionType } from "@prisma/client";
 import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
 async function main() {
   const categories = [
-    "Lain-lain",
-    "Makanan",
-    "Transportasi",
-    "Belanja",
-    "Tagihan",
-    "Hiburan",
-    "Kesehatan",
-    "Gaji",
+    { name: "Lain-lain", type: TransactionType.EXPENSE },
+    { name: "Makanan", type: TransactionType.EXPENSE },
+    { name: "Transportasi", type: TransactionType.EXPENSE },
+    { name: "Belanja", type: TransactionType.EXPENSE },
+    { name: "Tagihan", type: TransactionType.EXPENSE },
+    { name: "Hiburan", type: TransactionType.EXPENSE },
+    { name: "Kesehatan", type: TransactionType.EXPENSE },
+    { name: "Lain-lain", type: TransactionType.INCOME },
+    { name: "Gaji", type: TransactionType.INCOME },
+    { name: "Bonus", type: TransactionType.INCOME },
+    { name: "Hadiah", type: TransactionType.INCOME },
   ];
 
   await Promise.all(
-    categories.map((name) =>
+    categories.map((category) =>
       prisma.category.upsert({
-        where: { name },
+        where: {
+          name_type: {
+            name: category.name,
+            type: category.type,
+          },
+        },
         update: {},
-        create: { name },
+        create: category,
       })
     )
   );

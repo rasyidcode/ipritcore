@@ -37,12 +37,14 @@ function createDeps({
   const createCalls: unknown[] = [];
   const updateManyCalls: unknown[] = [];
   const deleteManyCalls: unknown[] = [];
+  const categoryFindUniqueCalls: unknown[] = [];
   const revalidatedPaths: string[] = [];
 
   return {
     createCalls,
     updateManyCalls,
     deleteManyCalls,
+    categoryFindUniqueCalls,
     revalidatedPaths,
     actions: createTransactionActions({
       getSessionUserId: async () => userId,
@@ -58,6 +60,17 @@ function createDeps({
         deleteMany: async (args) => {
           deleteManyCalls.push(args);
           return { count: deleteCount };
+        },
+      },
+      category: {
+        findUnique: async (args) => {
+          categoryFindUniqueCalls.push(args);
+          return {
+            type:
+              args.where.id === 8
+                ? TransactionType.INCOME
+                : TransactionType.EXPENSE,
+          };
         },
       },
       revalidatePath: (path) => {
@@ -90,6 +103,26 @@ describe("createTransactionAction", () => {
       },
     ]);
     assert.deepEqual(deps.revalidatedPaths, ["/"]);
+  });
+
+  it("rejects a category from another transaction type", async () => {
+    const deps = createDeps();
+
+    const result = await deps.actions.createTransactionAction(
+      initialState,
+      makeFormData({
+        name: "Gaji",
+        type: "income",
+        date: "2026-05-14",
+        amount: "Rp 5.000.000",
+        categoryId: "3",
+      }),
+    );
+
+    assert.equal(result.success, false);
+    assert.equal(result.error, "Kategori tidak sesuai dengan tipe transaksi.");
+    assert.deepEqual(deps.createCalls, []);
+    assert.deepEqual(deps.revalidatedPaths, []);
   });
 
   it("returns validation errors for invalid input", async () => {

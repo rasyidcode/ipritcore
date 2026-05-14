@@ -10,6 +10,7 @@ import { revalidatePath } from "next/cache";
 const actions = createTransactionActions({
   getSessionUserId: getRequiredSessionUserId,
   transaction: prisma.transaction,
+  category: prisma.category,
   revalidatePath,
 });
 

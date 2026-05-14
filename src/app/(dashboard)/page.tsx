@@ -37,9 +37,7 @@ export default async function DashboardPage({
     toMonthParam(selectedMonth) === toMonthParam(new Date());
 
   const categories = await prisma.category.findMany({
-    orderBy: {
-      name: "asc",
-    },
+    orderBy: [{ type: "asc" }, { name: "asc" }],
   });
 
   const transactions = await prisma.transaction.findMany({
