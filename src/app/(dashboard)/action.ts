@@ -13,8 +13,7 @@ import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-const schema = z.object({
-  id: z.string().min(1).optional(),
+const transactionSchema = z.object({
   name: z.string().min(1),
   type: z
     .string()
@@ -35,12 +34,22 @@ const schema = z.object({
     .transform((val) => new Date(val)),
 });
 
+const createTransactionSchema = transactionSchema;
+
+const updateTransactionSchema = transactionSchema.extend({
+  id: z
+    .string()
+    .min(1)
+    .transform((val) => Number(val))
+    .pipe(z.number().int().positive()),
+});
+
 export async function createTransactionAction(
   _prevState: ActionResult,
   formData: FormData
 ): Promise<ActionResult> {
   try {
-    const validatedFields = schema.safeParse({
+    const validatedFields = createTransactionSchema.safeParse({
       name: formData.get("name"),
       type: formData.get("type"),
       date: formData.get("date"),
@@ -82,7 +91,7 @@ export async function updateTransactionAction(
   formData: FormData
 ): Promise<ActionResult> {
   try {
-    const validatedFields = schema.safeParse({
+    const validatedFields = updateTransactionSchema.safeParse({
       id: formData.get("id"),
       name: formData.get("name"),
       type: formData.get("type"),
@@ -101,7 +110,7 @@ export async function updateTransactionAction(
 
     const { count } = await prisma.transaction.updateMany({
       where: {
-        id: parseInt(validatedFields.data.id as string),
+        id: validatedFields.data.id,
         userId,
       },
       data: {
